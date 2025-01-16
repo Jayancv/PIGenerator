@@ -1,0 +1,8 @@
+{
+  "description": "Create a N2 process diagram",
+  "keywords": "N2",
+  "model" : "gpt-3.5-turbo",
+  "version" : "gpt-3.5-turbo",
+  "api_key": "key",
+  "retry_count" : 5
+}

@@ -1,0 +1,8 @@
+{
+  "description": "Solid Carbon Combustion  \n Background & Description:\nCombustion, or burning, is a high-temperature exothermic redox chemical reaction between a fuel (the reduc-\ntant) and an oxidant, usually atmospheric oxygen, that produces oxidized, often gaseous products, in a mixture\ntermed as smoke. Combustion in a \fre produces a \name, and the heat produced can make combustion self-\nsustaining. Combustion is often a complicated sequence of elementary radical reactions. Solid fuels, such as\nwood and coal, \frst undergo endothermic pyrolysis to produce gaseous fuels whose combustion then supplies\nthe heat required to produce more of them. Combustion is often hot enough that incandescent light in the form\nof either glowing or a \name is produced. In this process, solid carbon mixed with air at 298.15 K and 101325\nPa is sent to a conversion reactor. Reaction takes place between carbon and oxygen to form carbon dioxide\nwhere 100% conversion is considered for carbon.",
+  "keywords": "Carbon Combustion",
+  "model" : "gpt-3.5-turbo",
+  "version" : "gpt-3.5-turbo",
+  "api_key": "key",
+  "retry_count" : 3
+}

@@ -1,0 +1,8 @@
+{
+  "description": "Claude cycle for Nitrogen Liquefaction\nBackground & Description:\nClaude introduced a novel cycle featuring a turbine and an expansion valve, characterized by the use of a single fluid compressed at a single pressure level within the system, as depicted in the accompanying figure. This cycle, known as the Claude cycle, has been widely applied in air liquefaction plants. One notable advantage of this cycle is its ability to achieve significantly lower compression ratios compared to the Linde cycle. However, a challenge arises from the inefficiency of the expansion machinery when the fluid remains in the vapor zone or maintains a high quality.\nThe innovative aspect of the Claude cycle is its integration of isentropic expansion within the turbine and isenthalpic expansion specifically during the expansion phase leading to gas liquefaction.\nThe cycle initiates similarly to the Linde cycle: gas compression for liquefaction, followed by cooling to approximately room temperature. Subsequently, the gas traverses a regenerator that facilitates cooling to around -105°C. The gas flow then divides, with around 15% undergoing expansion through a turbine. The main gas flow passes through a second regenerator and is subsequently released at a very low temperature. It then experiences isenthalpic expansion, leading to the extraction of the liquid phase. The vapor is combined with the flow exiting the turbine and serves as a coolant in the second regenerator and subsequently in the first.This vapor is later recycled by mixing with the gas entering the cycle.",
+  "keywords": "Nitrogen Liquefaction",
+  "model" : "gpt-3.5-turbo",
+  "version" : "gpt-3.5-turbo",
+  "api_key": "key",
+  "retry_count" : 3
+}
