@@ -148,7 +148,7 @@ sim = interf.CreateFlowsheet()
         python_code += f"sim.ConnectObjects({from_tag}.GraphicObject, {to_tag}.GraphicObject, -1, -1)  # {from_tag} to {to_tag}\n"
 
     python_code += " # Save the flowsheet \n"
-    python_code += f"fileNameToSave = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), \"{file_name}.xml\")\n"
+    python_code += f"fileNameToSave = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), \"gen_{file_name}.xml\")\n"
 
     python_code += """ 
 interf.SaveFlowsheet(sim, fileNameToSave, False)
@@ -174,7 +174,7 @@ str = MemoryStream()
 d.SaveTo(str)
 image = Image.FromStream(str)
 """
-    python_code += f"imgPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), \"{file_name}.png\")\n"
+    python_code += f"imgPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), \"img_{file_name}.png\")\n"
 
 
     python_code +=""" 
