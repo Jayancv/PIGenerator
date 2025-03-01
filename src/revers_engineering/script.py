@@ -1,4 +1,50 @@
+import os
+import re
 import xml.etree.ElementTree as ET
+
+# Custom mapping for object names
+object_name_mapping = {
+    "CompressorExpander": "Compressor",
+    "HeaterCooler": "Heater",
+    # Add more mappings as needed
+}
+compound_mapping = {
+    "Metano": "Methane",
+    "Etano": "Ethane",
+    "Propano": "Propane",
+    "nButano": "N-butane",
+    "iButano": "Isobutane",
+    "nPentano": "N-pentane",
+    "iPentano": "Isopentane",
+    "nHexano": "N-hexane",
+    "nHeptano": "N-heptane",
+    "nOctano": "N-octane",
+    "nNonano": "N-nonane",
+    "nDecano": "N-decane",
+    "Oxigenio": "Oxygen",
+    "Nitrogenio": "Nitrogen",
+    "Agua": "Water",
+    "DioxidoDeCarbono": "Carbon dioxide",
+    "SulfetoDeHidrogenio": "Hydrogen sulfide",
+}
+
+
+def rename(name):
+    # Match one or more digits and/or underscores at the beginning, and capture the rest
+    m = re.match(r'^([0-9_]+)(.+)$', name)
+    if m:
+        prefix, rest = m.groups()
+        # If prefix has any digits, remove any trailing underscores (to avoid an extra underscore)
+        if any(c.isdigit() for c in prefix):
+            prefix = prefix.rstrip('_')
+        # If the prefix itself starts with an underscore, simply append it
+        if prefix and prefix[0] == '_':
+            return rest + prefix
+        # Otherwise, append with an underscore separator
+        if prefix:
+            return rest + "_" + prefix
+    # Return unchanged if no match (i.e. no digits or underscores in front)
+    return name
 
 
 def parse_xml(file_path):
@@ -8,9 +54,9 @@ def parse_xml(file_path):
     # Extract compounds
     compounds = set()
     for compound in root.findall(".//Compound"):
-        name = compound.find("Name").text
-        if name:
-            compounds.add(name)
+        name = compound.find("Name")
+        if name is not None:
+            compounds.add(name.text)
 
     # Extract simulation objects and link with graphic objects
     simulation_objects = {}
@@ -39,13 +85,42 @@ def parse_xml(file_path):
                     "temperature") is not None else None
                 obj_massflow = properties.find("massflow").text if properties.find("massflow") is not None else None
                 break
+        streams = []
+        if obj_type_short == "DistillationColumn":
+            for sub_cmp in ['MaterialStream', 'EnergyStream']:
+                # graphic_obj2 =
+                # if graphic_obj2 is None:
+                #     continue
+                for stream in sim_obj.findall(f'.//{sub_cmp}'):
+                    stream_type = stream.find('StreamType').text if stream.find('StreamType') is not None else None
+                    stream_behavior = stream.find('StreamBehavior').text if stream.find(
+                        'StreamBehavior') is not None else None
+                    stream_id = stream.find('StreamID').text if stream.find('StreamID') is not None else None
+                    streams.append({'StreamType': stream_type, 'StreamBehavior': stream_behavior,
+                                    'StreamID': stream_id.replace("-", "_")})
+
+            # for material in sim_obj.findall('.//MaterialStream'):
+            #     stream_type = material.find('StreamType').text if material.find('StreamType') is not None else None
+            #     stream_behavior = material.find('StreamBehavior').text if material.find(
+            #         'StreamBehavior') is not None else None
+            #     stream_id = energy.find('StreamID').text if energy.find('StreamID') is not None else None
+            #     streams.append({'StreamType': stream_type, 'StreamBehavior': stream_behavior, 'StreamID': stream_id.replace("-", "_")})
+            #
+            # # Extract EnergyStreams
+            # for energy in sim_obj.findall('.//EnergyStream'):
+            #     stream_type = energy.find('StreamType').text if energy.find('StreamType') is not None else None
+            #     stream_behavior = energy.find('StreamBehavior').text if energy.find(
+            #         'StreamBehavior') is not None else None
+            #     stream_id = energy.find('StreamID').text if energy.find('StreamID') is not None else None
+            #     streams.append({'StreamType': stream_type, 'StreamBehavior': stream_behavior, 'StreamID': stream_id.replace("-", "_")})
 
         simulation_objects[obj_name] = {
             "type": obj_type_short,
             "code": code,
             "pressure": obj_pressure,
             "temperature": obj_temperature,
-            "massflow": obj_massflow
+            "massflow": obj_massflow,
+            "streams": streams
         }
 
     # Extract graphic objects and link by name
@@ -61,15 +136,40 @@ def parse_xml(file_path):
             graphic_objects[name] = {"x": x, "y": y, "tag": tag, "objectType": objectType}
 
         # Process connections inside the loop
-        for conn in graphic_obj.findall(".//InputConnectors/Connector"):
+        for conn in graphic_obj.findall("./InputConnectors/Connector"):
             from_id = conn.get("AttachedFromObjID")
             if from_id:
                 connections.append((from_id.replace("-", "_"), name))
 
-        for conn in graphic_obj.findall(".//OutputConnectors/Connector"):
+        for conn in graphic_obj.findall("./OutputConnectors/Connector"):
             to_id = conn.get("AttachedToObjID")
             if to_id:
                 connections.append((name, to_id.replace("-", "_")))
+
+        for sub_cmp in ["ConnectedToMv", "ConnectedToRv", "ConnectedToCv"]:
+            graphic_obj2 = graphic_obj.find(f"./{sub_cmp}")
+            if graphic_obj2 is None:
+                continue
+            name = graphic_obj2.find("Name")
+            if name is not None:
+                name = graphic_obj2.find("Name").text
+                name = name.replace("-", "_")
+                # x = graphic_obj2.find("X").text if graphic_obj2.find("X") is not None else "100"
+                # y = graphic_obj2.find("Y").text if graphic_obj2.find("Y") is not None else "100"
+                # tag = graphic_obj2.find("Tag").text if graphic_obj2.find("Tag") is not None else "Tag"
+                # objectType = graphic_obj2.find("ObjectType").text if graphic_obj2.find("ObjectType") is not None else ""
+                # graphic_objects[name] = {"x": x, "y": y, "tag": tag, "objectType": objectType}
+
+                # Process connections inside the connections loop
+                for conn in graphic_obj2.findall("./InputConnectors/Connector"):
+                    from_id = conn.get("AttachedFromObjID")
+                    if from_id:
+                        connections.append((from_id.replace("-", "_"), name))
+
+                for conn in graphic_obj2.findall("./OutputConnectors/Connector"):
+                    to_id = conn.get("AttachedToObjID")
+                    if to_id:
+                        connections.append((name, to_id.replace("-", "_")))
 
     unique_connections = set(tuple(link) for link in connections)
 
@@ -113,8 +213,10 @@ sim = interf.CreateFlowsheet()
 """
 
     for compound in compounds:
-        python_code += f"{compound.replace("-", "_") .lower()} = sim.AvailableCompounds[\"{compound}\"]\n"
-        python_code += f"sim.SelectedCompounds.Add({compound.replace("-", "_") .lower()}.Name, {compound.replace("-", "_") .lower()})\n"
+        compound_id = rename(compound.replace("-", "_").replace(" ", "_").replace(",", "_").lower())
+        compound_name = compound_mapping.get(compound, compound)
+        python_code += f"{compound_id} = sim.AvailableCompounds[\"{compound_name}\"]\n"
+        python_code += f"sim.SelectedCompounds.Add({compound_id}.Name, {compound_id})\n"
 
     python_code += "\n# Adding Simulation Objects\n"
 
@@ -123,13 +225,14 @@ sim = interf.CreateFlowsheet()
         obj_type = graphic_objects.get(obj_name, {}).get("objectType", "")
         if not obj_type:
             obj_type = obj["type"].split(".")[-1]  # Extract last part of type
+        assigned_name = object_name_mapping.get(obj_type, obj_type)
 
         code = obj["code"].split(".")[-1]  # Extract last part of type
         x = graphic_objects.get(obj_name, {}).get("x", "100")  # Get X position
         y = graphic_objects.get(obj_name, {}).get("y", "100")  # Get Y position
 
         python_code += f"# Adding {obj_type}: {obj_name}\n"
-        python_code += f"{code} = sim.AddObject(ObjectType.{obj_type}, {int(float(x))}, {int(float(y))}, \"{tag}\")\n"
+        python_code += f"{code} = sim.AddObject(ObjectType.{assigned_name}, {int(float(x))}, {int(float(y))}, \"{tag}\")\n"
         python_code += f"{code} = {code}.GetAsObject()\n"
 
         if obj["temperature"]:
@@ -142,12 +245,42 @@ sim = interf.CreateFlowsheet()
         python_code += "\n"
 
     # Add connections immediately after defining the object
+
+    for obj_name, obj in sim_objects.items():
+        code = obj["code"].split(".")[-1]  # Extract last part of type
+
+        if obj["streams"]:
+            for stream in obj['streams']:
+                connect_stream_id = stream['StreamID']
+                connect_obj = sim_objects[connect_stream_id]['code']
+                if stream['StreamType'] == "Material" and stream['StreamBehavior'] == "OverheadVapor":
+                    python_code += f"{code}.ConnectVaporProduct({connect_obj}) # ConnectVaporProduct \n"
+                    if (obj_name, connect_stream_id) in connections:
+                        connections.remove((obj_name, connect_stream_id))
+                if stream['StreamType'] == "Material" and stream['StreamBehavior'] == "Distillate":
+                    python_code += f"{code}.ConnectDistillate({connect_obj})  # ConnectDistillate \n"
+                    if (obj_name, connect_stream_id) in connections:
+                        connections.remove((obj_name, connect_stream_id))
+                if stream['StreamType'] == "Material" and stream['StreamBehavior'] == "BottomsLiquid":
+                    python_code += f"{code}.ConnectBottoms({connect_obj})  # ConnectBottoms \n"
+                    if (obj_name, connect_stream_id) in connections:
+                        connections.remove((obj_name, connect_stream_id))
+                if stream['StreamType'] == "Energy" and stream['StreamBehavior'] == "Distillate":
+                    python_code += f"{code}.ConnectCondenserDuty({connect_obj})  # ConnectCondenserDuty \n"
+                    if (obj_name, connect_stream_id) in connections:
+                        connections.remove((obj_name, connect_stream_id))
+                if stream['StreamType'] == "Energy" and stream['StreamBehavior'] == "BottomsLiquid":
+                    python_code += f"{code}.ConnectReboilerDuty({connect_obj})  # ConnectReboilerDuty \n"
+                    if (obj_name, connect_stream_id) in connections:
+                        connections.remove((obj_name, connect_stream_id))
+
     for from_obj, to_obj in connections:
         from_tag = sim_objects.get(from_obj).get("code")
         to_tag = sim_objects.get(to_obj).get("code")
         python_code += f"sim.ConnectObjects({from_tag}.GraphicObject, {to_tag}.GraphicObject, -1, -1)  # {from_tag} to {to_tag}\n"
 
-    python_code += " # Save the flowsheet \n"
+    python_code += (" # sim.AutoLayout()  \n"
+                    " # Save the flowsheet \n")
     python_code += f"fileNameToSave = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), \"gen_{file_name}.xml\")\n"
 
     python_code += """ 
@@ -165,8 +298,9 @@ from System.Drawing import Image
 from System.Drawing.Imaging import ImageFormat
 
 # Render PFD to image
+sim.GetSurface().AutoArrange()
 PFDSurface = sim.GetSurface()
-bmp = SKBitmap(1024, 768)
+bmp = SKBitmap(2048, 768)
 canvas = SKCanvas(bmp)
 PFDSurface.UpdateCanvas(canvas)
 d = SKImage.FromBitmap(bmp).Encode(SKEncodedImageFormat.Png, 100)
@@ -176,28 +310,60 @@ image = Image.FromStream(str)
 """
     python_code += f"imgPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), \"img_{file_name}.png\")\n"
 
-
-    python_code +=""" 
-
+    python_code += """ 
 image.Save(imgPath, ImageFormat.Png)
 str.Dispose()
 canvas.Dispose()
 bmp.Dispose()
-
 
 """
 
     return python_code
 
 
-# Example usage
-xml_path = "D:\\Masters\\Thesis\\PIGenerator\\src\\revers_engineering\\resources\\b.xml"  # Replace with actual path
-file_name = "b"
-compounds, simulation_objects, graphic_objects, connections = parse_xml(xml_path)
-python_script = generate_python_code(file_name, compounds, simulation_objects, graphic_objects, connections)
+def list_files_in_folder(folder_path):
+    try:
+        file_names = os.listdir(folder_path)  # Get all file and folder names
+        file_names = [os.path.splitext(f)[0] for f in file_names if
+                      os.path.isfile(os.path.join(folder_path, f))]  # Remove extensions
+        return file_names
+    except FileNotFoundError:
+        print("Folder not found.")
+        return []
+    except PermissionError:
+        print("Permission denied.")
+        return []
 
-# Save the generated Python script
-with open("generated_sim.py", "w") as f:
-    f.write(python_script)
 
-print("Python script generated successfully.")
+# Example usage:
+folder_path = "D:\\Masters\\Thesis\\PIGenerator\\src\\revers_engineering\\resources\\xml"
+file_list = list_files_in_folder(folder_path)
+# file_list = ["0"]
+print(file_list)
+
+for file in file_list:
+    xml_path = folder_path + f"\\{file}.xml"
+    compounds, simulation_objects, graphic_objects, connections = parse_xml(xml_path)
+    python_script = generate_python_code(file, compounds, simulation_objects, graphic_objects, connections)
+
+    # Save the generated Python script
+    with open(f"{file}_generated_sim.py", "w") as f:
+        f.write(python_script)
+
+    print("Python script generated successfully.")
+
+folder_path_dwxml = "D:\\Masters\\Thesis\\PIGenerator\\src\\revers_engineering\\resources\\dwxml"
+dwxml_file_list = list_files_in_folder(folder_path_dwxml)
+# file_list = ["0"]
+print(dwxml_file_list)
+
+for file in dwxml_file_list:
+    xml_path = folder_path_dwxml + f"\\{file}.dwxml"
+    compounds, simulation_objects, graphic_objects, connections = parse_xml(xml_path)
+    python_script = generate_python_code(file, compounds, simulation_objects, graphic_objects, connections)
+
+    # Save the generated Python script
+    with open(f"{file}_generated_sim.py", "w") as f:
+        f.write(python_script)
+
+    print("Python script generated successfully.")
