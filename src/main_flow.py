@@ -1,4 +1,5 @@
 from datetime import datetime
+from rag import get_retrieved_details
 
 from openai import OpenAI
 import openai
@@ -34,11 +35,10 @@ parser.add_argument("--skill", action="store_true", default=False)
 parser.add_argument("--no_context", action="store_true", default=False)
 parser.add_argument("--no_chain", action="store_true", default=False)
 parser.add_argument('--api_key', type=str, default="gpt-3.5-turbo")
-parser.add_argument("--retrieval", action="store_true", default=False)
+parser.add_argument("--retrieval", action="store_true", default=False)  # Add RAG retrieval flag
 
 args = parser.parse_args()
-os.environ[
-    "OPENAI_API_KEY"] = r"Key"
+os.environ["OPENAI_API_KEY"] = r"sk-proj-123-EIcINIA"
 opensource_models = ["mistral", "wizardcoder", "deepseek-coder:33b-instruct", "codeqwen", "mixtral", "qwen"]
 
 if any([model in args.model for model in opensource_models]):
@@ -66,11 +66,11 @@ clr.AddReference(dwsimpath + "DWSIM.Inspector.dll")
 clr.AddReference(dwsimpath + "System.Buffers.dll")
 """
 
-openai.api_key = 'Key'
+openai.api_key = 'sk-proj-123-EIcINIA'
 global client
 
 client = OpenAI(
-    api_key="Key")
+    api_key="sk-proj-123-EIcINIA")
 
 
 # This function extracts the code from the generated content which in markdown format
@@ -415,6 +415,17 @@ def pdf_generation(model_name, task_id, messages, code, retry_count):
 
 
 def work(input, background, model_name, client, retry_count):
+
+    # **STEP 1: Retrieve Relevant Details using RAG**
+    if args.retrieval:
+        retrieved_details = get_retrieved_details(input)
+        if retrieved_details:
+            context = '\n'.join(f"- {item['Description']}" for item in retrieved_details)
+        else:
+            context = "No relevant context found in the dataset."
+    else:
+        context = "No RAG retrieval used."
+
     global generator
     task_id = str(datetime.now().strftime('%Y%m%d%H%M%S%f'))
     total_tokens = 0

@@ -1,0 +1,1095 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DataSet>
+	<Sample>
+		<Index>1</Index>
+		<Description>A process for gas liquefaction, particularly nitrogen liquefaction, which combines the use of a
+nitrogen auto-refrigeration cooling cycle with one or more closed-loop refrigeration cycles using
+two or more refrigerant components. The closed-loop refrigeration cycle provide refrigeration
+in a temperature range having a lowest temperature between about -125F. and about -250F.
+A nitrogen expander cycle provides additional refrigeration, a portion of which is provided
+at temperatures below the lowest temperature of the closed-loop or recirculating refrigeration
+cycle or cycles. The lowest temperature of the nitrogen expander cycle refrigeration range is
+between about -220F. and about -320F. The combined use of the two dierent refrigerant
+systems allows each system to operate most eciently in the optimum temperature range,
+thereby reducing the power consumption required for liquefaction.
+Gaseous nitrogen at 80F, 1 atm is compressed to 25 atm pressure. Adiabatic compressor is
+employed for this purpose with 50% eciency which also results in increasing the temperature
+of N2 stream to 1577F. The stream is further cooled to -306F with the help of a series of
+cooler and heat exchanger. Cooled N2 is further expanded by reducing the pressure to 1 atm
+using an isenthalpic valve to obtain liqueed N2.
+		</Description>
+		<PythonCode>
+import clr
+
+dwsimpath = "C:\\Users\\jcvid\\AppData\\Local\\DWSIM\\"
+clr.AddReference("System")
+clr.AddReference(dwsimpath + "CapeOpen.dll")
+clr.AddReference(dwsimpath + "DWSIM.Automation.dll")
+clr.AddReference(dwsimpath + "DWSIM.Interfaces.dll")
+clr.AddReference(dwsimpath + "DWSIM.GlobalSettings.dll")
+clr.AddReference(dwsimpath + "DWSIM.SharedClasses.dll")
+clr.AddReference(dwsimpath + "DWSIM.Thermodynamics.dll")
+clr.AddReference(dwsimpath + "DWSIM.Thermodynamics.ThermoC.dll")
+clr.AddReference(dwsimpath + "DWSIM.UnitOperations.dll")
+clr.AddReference(dwsimpath + "DWSIM.Inspector.dll")
+clr.AddReference(dwsimpath + "System.Buffers.dll")
+
+from DWSIM.Interfaces.Enums.GraphicObjects import ObjectType
+from DWSIM.Thermodynamics import Streams, PropertyPackages
+from DWSIM.UnitOperations import UnitOperations
+from DWSIM.Automation import Automation3
+from DWSIM.GlobalSettings import Settings
+from System.IO import Directory, Path, File
+from System import String, Environment
+
+# Set current directory to DWSIM path
+Directory.SetCurrentDirectory(dwsimpath)
+
+interf = Automation3()
+sim = interf.CreateFlowsheet()
+
+# Adding Compounds
+nitrogen = sim.AvailableCompounds["Nitrogen"]
+sim.SelectedCompounds.Add(nitrogen.Name, nitrogen)
+
+# Adding Simulation Objects
+# Adding EnergyStream: EN_6a201fda_f096_4d66_9404_0fb5b35433af
+EnergyStream1 = sim.AddObject(ObjectType.EnergyStream, 748, 612, "ESTR-001")
+EnergyStream1 = EnergyStream1.GetAsObject()
+
+# Adding MaterialStream: MAT_000b4dcd_6aca_4190_b3bb_6bb51b6eb027
+MaterialStream1 = sim.AddObject(ObjectType.MaterialStream, 846, 458, "Com N2")
+MaterialStream1 = MaterialStream1.GetAsObject()
+MaterialStream1.SetTemperature(1131.98201722368)  # Temperature in K
+MaterialStream1.SetPressure(2533125)  # Pressure in Pa
+MaterialStream1.SetMassFlow(0.277777777777778)  # Mass Flow in kg/s
+
+# Adding CompressorExpander: COMP_45b1e044_8e2c_4d41_8368_720d4a11aa61
+AdiabaticExpanderCompressor1 = sim.AddObject(ObjectType.Compressor, 798, 549, "Compressor")
+AdiabaticExpanderCompressor1 = AdiabaticExpanderCompressor1.GetAsObject()
+
+# Adding MaterialStream: MAT_c0907dbf_9c7c_44b2_a651_e1568538cd98
+MaterialStream2 = sim.AddObject(ObjectType.MaterialStream, 746, 458, "Mixed N2")
+MaterialStream2 = MaterialStream2.GetAsObject()
+MaterialStream2.SetTemperature(300)  # Temperature in K
+MaterialStream2.SetPressure(101325)  # Pressure in Pa
+MaterialStream2.SetMassFlow(0.277777777777778)  # Mass Flow in kg/s
+
+# Adding HeaterCooler: RESF_9905f77d_baad_43f0_8566_89fd694a4aa0
+HeaterCooler1 = sim.AddObject(ObjectType.Heater, 907, 457, "Cooler-001")
+HeaterCooler1 = HeaterCooler1.GetAsObject()
+
+# Adding MaterialStream: MAT_abbf3208_85ab_4c5a_8b61_17f97e2006a9
+MaterialStream3 = sim.AddObject(ObjectType.MaterialStream, 998, 462, "Cooled-N2-S1")
+MaterialStream3 = MaterialStream3.GetAsObject()
+MaterialStream3.SetTemperature(300.000000041442)  # Temperature in K
+MaterialStream3.SetPressure(2533125)  # Pressure in Pa
+MaterialStream3.SetMassFlow(0.277777777777778)  # Mass Flow in kg/s
+
+# Adding EnergyStream: EN_4d661a5d_ea23_44b7_a14d_6ac8923ca2ba
+EnergyStream2 = sim.AddObject(ObjectType.EnergyStream, 940, 550, "ESTR-002")
+EnergyStream2 = EnergyStream2.GetAsObject()
+
+# Adding HeatExchanger: HE_25faa348_c84f_48f6_971e_589b9697f800
+HeatExchanger1 = sim.AddObject(ObjectType.HeatExchanger, 1068, 455, "HE-009")
+HeatExchanger1 = HeatExchanger1.GetAsObject()
+
+# Adding MaterialStream: MAT_442ad76e_b5e7_483c_a8a0_3d843d03affe
+MaterialStream4 = sim.AddObject(ObjectType.MaterialStream, 1006, 396, "N2-Cold")
+MaterialStream4 = MaterialStream4.GetAsObject()
+MaterialStream4.SetTemperature(77.3547226738273)  # Temperature in K
+MaterialStream4.SetPressure(101325)  # Pressure in Pa
+MaterialStream4.SetMassFlow(0.225)  # Mass Flow in kg/s
+
+# Adding MaterialStream: MAT_41e90e45_1b9f_4d90_a28c_5a4d5c276968
+MaterialStream5 = sim.AddObject(ObjectType.MaterialStream, 1143, 460, "Cooled-N2-S2")
+MaterialStream5 = MaterialStream5.GetAsObject()
+MaterialStream5.SetTemperature(185.421933523528)  # Temperature in K
+MaterialStream5.SetPressure(2533125)  # Pressure in Pa
+MaterialStream5.SetMassFlow(0.277777777777778)  # Mass Flow in kg/s
+
+# Adding MaterialStream: MAT_38ae9812_c1a9_4673_b02e_77dcf0eed1f6
+MaterialStream6 = sim.AddObject(ObjectType.MaterialStream, 1055, 566, "N2-Hot")
+MaterialStream6 = MaterialStream6.GetAsObject()
+MaterialStream6.SetTemperature(229.000008569682)  # Temperature in K
+MaterialStream6.SetPressure(101325)  # Pressure in Pa
+MaterialStream6.SetMassFlow(0.225)  # Mass Flow in kg/s
+
+# Adding HeaterCooler: RESF_cbfcb8b7_ed0a_478c_924c_060f815ed8c3
+HeaterCooler2 = sim.AddObject(ObjectType.Heater, 1223, 456, "Cooler")
+HeaterCooler2 = HeaterCooler2.GetAsObject()
+
+# Adding MaterialStream: MAT_6e1e44b0_7ddc_4d11_9fad_a5526d06267d
+MaterialStream7 = sim.AddObject(ObjectType.MaterialStream, 1269, 564, "Cooled-N2-S3")
+MaterialStream7 = MaterialStream7.GetAsObject()
+MaterialStream7.SetTemperature(84.9999999992714)  # Temperature in K
+MaterialStream7.SetPressure(2533125)  # Pressure in Pa
+MaterialStream7.SetMassFlow(0.277777777777778)  # Mass Flow in kg/s
+
+# Adding EnergyStream: EN_37412dcc_4112_41db_bad7_2eddf4b8179d
+EnergyStream3 = sim.AddObject(ObjectType.EnergyStream, 1150, 569, "ESTR-003")
+EnergyStream3 = EnergyStream3.GetAsObject()
+
+# Adding Valve: VALV_66b69073_a1b7_4a35_a1c0_655de7a476f6
+Valve1 = sim.AddObject(ObjectType.Valve, 1312, 454, "Valve")
+Valve1 = Valve1.GetAsObject()
+
+# Adding MaterialStream: MAT_ca61f92a_5afb_4c0c_9849_776ced812743
+MaterialStream8 = sim.AddObject(ObjectType.MaterialStream, 1379, 455, "Liquified-N2")
+MaterialStream8 = MaterialStream8.GetAsObject()
+MaterialStream8.SetTemperature(77.3547221359901)  # Temperature in K
+MaterialStream8.SetPressure(101325)  # Pressure in Pa
+MaterialStream8.SetMassFlow(0.277777777777778)  # Mass Flow in kg/s
+
+sim.ConnectObjects(MaterialStream1.GraphicObject, HeaterCooler1.GraphicObject, -1, -1)  # MaterialStream1 to HeaterCooler1
+sim.ConnectObjects(EnergyStream1.GraphicObject, AdiabaticExpanderCompressor1.GraphicObject, -1, -1)  # EnergyStream1 to AdiabaticExpanderCompressor1
+sim.ConnectObjects(MaterialStream3.GraphicObject, HeatExchanger1.GraphicObject, -1, -1)  # MaterialStream3 to HeatExchanger1
+sim.ConnectObjects(MaterialStream2.GraphicObject, AdiabaticExpanderCompressor1.GraphicObject, -1, -1)  # MaterialStream2 to AdiabaticExpanderCompressor1
+sim.ConnectObjects(MaterialStream5.GraphicObject, HeaterCooler2.GraphicObject, -1, -1)  # MaterialStream5 to HeaterCooler2
+sim.ConnectObjects(HeaterCooler2.GraphicObject, EnergyStream3.GraphicObject, -1, -1)  # HeaterCooler2 to EnergyStream3
+sim.ConnectObjects(HeatExchanger1.GraphicObject, MaterialStream6.GraphicObject, -1, -1)  # HeatExchanger1 to MaterialStream6
+sim.ConnectObjects(MaterialStream4.GraphicObject, HeatExchanger1.GraphicObject, -1, -1)  # MaterialStream4 to HeatExchanger1
+sim.ConnectObjects(HeaterCooler1.GraphicObject, MaterialStream3.GraphicObject, -1, -1)  # HeaterCooler1 to MaterialStream3
+sim.ConnectObjects(MaterialStream7.GraphicObject, Valve1.GraphicObject, -1, -1)  # MaterialStream7 to Valve1
+sim.ConnectObjects(Valve1.GraphicObject, MaterialStream8.GraphicObject, -1, -1)  # Valve1 to MaterialStream8
+sim.ConnectObjects(AdiabaticExpanderCompressor1.GraphicObject, MaterialStream1.GraphicObject, -1, -1)  # AdiabaticExpanderCompressor1 to MaterialStream1
+sim.ConnectObjects(HeaterCooler2.GraphicObject, MaterialStream7.GraphicObject, -1, -1)  # HeaterCooler2 to MaterialStream7
+sim.ConnectObjects(HeatExchanger1.GraphicObject, MaterialStream5.GraphicObject, -1, -1)  # HeatExchanger1 to MaterialStream5
+sim.ConnectObjects(HeaterCooler1.GraphicObject, EnergyStream2.GraphicObject, -1, -1)  # HeaterCooler1 to EnergyStream2
+sim.AutoLayout()  
+ # Save the flowsheet 
+fileNameToSave = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "gen_1.xml")
+ 
+interf.SaveFlowsheet(sim, fileNameToSave, False)
+
+
+
+# Export PFD image
+clr.AddReference(dwsimpath + "SkiaSharp.dll")
+clr.AddReference("System.Drawing")
+
+from SkiaSharp import SKBitmap, SKImage, SKCanvas, SKEncodedImageFormat
+from System.IO import MemoryStream
+from System.Drawing import Image
+from System.Drawing.Imaging import ImageFormat
+
+# Render PFD to image
+sim.GetSurface().AutoArrange()
+PFDSurface = sim.GetSurface()
+bmp = SKBitmap(1024, 768)
+canvas = SKCanvas(bmp)
+PFDSurface.UpdateCanvas(canvas)
+d = SKImage.FromBitmap(bmp).Encode(SKEncodedImageFormat.Png, 100)
+str = MemoryStream()
+d.SaveTo(str)
+image = Image.FromStream(str)
+imgPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "img_1.png")
+ 
+image.Save(imgPath, ImageFormat.Png)
+str.Dispose()
+canvas.Dispose()
+bmp.Dispose()
+		</PythonCode>
+	</Sample>
+	<Sample>
+		<Index>2</Index>
+		<Description/>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>3</Index>
+		<Description/>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>4</Index>
+		<Description>Natural gas has been proposed as a source of hydrogen for fuel cell vehicle applications because
+of the existing infrastructure. In a process known as steam reforming, natural gas and steam are
+reacted into mostly carbon monoxide and hydrogen with some carbon dioxide also produced.
+There can also be excess water in the reformate stream.
+A feed consisting of 10000 mol/h CH4, 10000 mol/h H2O, and 100 mol/h H2 enters into
+a steam reforming reactor that operates at 1000 K and a 1 atm feed pressure. The reactions
+taking place in the PFR are as follows:
+The steam reforming reaction is given as:
+CH4 + H2O *)
+3H2 + CO
+In the steam reformer, the water gas shift reaction also takes place as: CO+H2O *)
+H2+CO2
+Adding together the steam reforming and water gas shift reactions gives the overall reaction:
+CH4 + 2H2O *)
+4H2 + CO2
+In the reactor, methane (CH4) and water (H2O) are fed as reactants and carbon dioxide
+(CO2), carbon monoxide (CO), and hydrogen (H2) are produced over a nickel catalyst on an
+alumina support. The weight of the catalyst is 386 g. The reaction takes place in isothermal
+mode with reactor volume of 1 m3. 75.62% conversion is obtained for methane.		</Description>
+		<PythonCode>
+import clr
+
+dwsimpath = "C:\\Users\\jcvid\\AppData\\Local\\DWSIM\\"
+clr.AddReference("System")
+clr.AddReference(dwsimpath + "CapeOpen.dll")
+clr.AddReference(dwsimpath + "DWSIM.Automation.dll")
+clr.AddReference(dwsimpath + "DWSIM.Interfaces.dll")
+clr.AddReference(dwsimpath + "DWSIM.GlobalSettings.dll")
+clr.AddReference(dwsimpath + "DWSIM.SharedClasses.dll")
+clr.AddReference(dwsimpath + "DWSIM.Thermodynamics.dll")
+clr.AddReference(dwsimpath + "DWSIM.Thermodynamics.ThermoC.dll")
+clr.AddReference(dwsimpath + "DWSIM.UnitOperations.dll")
+clr.AddReference(dwsimpath + "DWSIM.Inspector.dll")
+clr.AddReference(dwsimpath + "System.Buffers.dll")
+
+from DWSIM.Interfaces.Enums.GraphicObjects import ObjectType
+from DWSIM.Thermodynamics import Streams, PropertyPackages
+from DWSIM.UnitOperations import UnitOperations
+from DWSIM.Automation import Automation3
+from DWSIM.GlobalSettings import Settings
+from System.IO import Directory, Path, File
+from System import String, Environment
+
+# Set current directory to DWSIM path
+Directory.SetCurrentDirectory(dwsimpath)
+
+interf = Automation3()
+sim = interf.CreateFlowsheet()
+
+# Adding Compounds
+hydrogen = sim.AvailableCompounds["Hydrogen"]
+sim.SelectedCompounds.Add(hydrogen.Name, hydrogen)
+carbon_dioxide = sim.AvailableCompounds["Carbon dioxide"]
+sim.SelectedCompounds.Add(carbon_dioxide.Name, carbon_dioxide)
+water = sim.AvailableCompounds["Water"]
+sim.SelectedCompounds.Add(water.Name, water)
+carbon_monoxide = sim.AvailableCompounds["Carbon monoxide"]
+sim.SelectedCompounds.Add(carbon_monoxide.Name, carbon_monoxide)
+methane = sim.AvailableCompounds["Methane"]
+sim.SelectedCompounds.Add(methane.Name, methane)
+
+# Adding Simulation Objects
+# Adding EnergyStream: EN_bfaa2be1_1e89_4683_b51b_ef145653d863
+EnergyStream1 = sim.AddObject(ObjectType.EnergyStream, 684, 567, "ESTR-000")
+EnergyStream1 = EnergyStream1.GetAsObject()
+
+# Adding MaterialStream: MAT_46fbda10_c393_463b_8716_732cc72e227c
+MaterialStream1 = sim.AddObject(ObjectType.MaterialStream, 888, 504, "MSTR-001")
+MaterialStream1 = MaterialStream1.GetAsObject()
+MaterialStream1.SetTemperature(1000)  # Temperature in K
+MaterialStream1.SetPressure(96143.0818857496)  # Pressure in Pa
+MaterialStream1.SetMassFlow(0.0946608706037125)  # Mass Flow in kg/s
+
+# Adding RCT_PFR: PFR_5f3ea195_7284_4d1d_b2be_f1a347522946
+Reactor_PFR1 = sim.AddObject(ObjectType.RCT_PFR, 759, 504, "PFR-000")
+Reactor_PFR1 = Reactor_PFR1.GetAsObject()
+
+# Adding MaterialStream: MAT_407b6ae5_849b_4b85_aaa5_ce2ec4806f98
+MaterialStream2 = sim.AddObject(ObjectType.MaterialStream, 684, 504, "MSTR-000")
+MaterialStream2 = MaterialStream2.GetAsObject()
+MaterialStream2.SetTemperature(1000)  # Temperature in K
+MaterialStream2.SetPressure(101325)  # Pressure in Pa
+MaterialStream2.SetMassFlow(0.0946615522222222)  # Mass Flow in kg/s
+
+sim.ConnectObjects(Reactor_PFR1.GraphicObject, MaterialStream1.GraphicObject, -1, -1)  # Reactor_PFR1 to MaterialStream1
+sim.ConnectObjects(MaterialStream2.GraphicObject, Reactor_PFR1.GraphicObject, -1, -1)  # MaterialStream2 to Reactor_PFR1
+sim.ConnectObjects(EnergyStream1.GraphicObject, Reactor_PFR1.GraphicObject, -1, -1)  # EnergyStream1 to Reactor_PFR1
+sim.AutoLayout()  
+ # Save the flowsheet 
+fileNameToSave = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "gen_4.xml")
+ 
+interf.SaveFlowsheet(sim, fileNameToSave, False)
+
+
+
+# Export PFD image
+clr.AddReference(dwsimpath + "SkiaSharp.dll")
+clr.AddReference("System.Drawing")
+
+from SkiaSharp import SKBitmap, SKImage, SKCanvas, SKEncodedImageFormat
+from System.IO import MemoryStream
+from System.Drawing import Image
+from System.Drawing.Imaging import ImageFormat
+
+# Render PFD to image
+sim.GetSurface().AutoArrange()
+PFDSurface = sim.GetSurface()
+bmp = SKBitmap(1024, 768)
+canvas = SKCanvas(bmp)
+PFDSurface.UpdateCanvas(canvas)
+d = SKImage.FromBitmap(bmp).Encode(SKEncodedImageFormat.Png, 100)
+str = MemoryStream()
+d.SaveTo(str)
+image = Image.FromStream(str)
+imgPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "img_4.png")
+ 
+image.Save(imgPath, ImageFormat.Png)
+str.Dispose()
+canvas.Dispose()
+bmp.Dispose()
+
+		</PythonCode>
+	</Sample>
+	<Sample>
+		<Index>5</Index>
+		<Description>Combustion, or burning, is a high-temperature exothermic redox chemical reaction between a fuel (the reduc-
+tant) and an oxidant, usually atmospheric oxygen, that produces oxidized, often gaseous products, in a mixture
+termed as smoke. Combustion in a re produces a 
+ame, and the heat produced can make combustion self-
+sustaining. Combustion is often a complicated sequence of elementary radical reactions. Solid fuels, such as
+wood and coal, rst undergo endothermic pyrolysis to produce gaseous fuels whose combustion then supplies
+the heat required to produce more of them. Combustion is often hot enough that incandescent light in the form
+of either glowing or a 
+ame is produced. In this process, solid carbon mixed with air at 298.15 K and 101325
+Pa is sent to a conversion reactor. Reaction takes place between carbon and oxygen to form carbon dioxide
+where 100% conversion is considered for carbon.		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>6</Index>
+		<Description>Acetone is used as a direct solvent and as a pioneer to the production of Methyl
+Methacrylate (MMA), Methacrylic Acid, Bisphenol-A, aldol chemicals to name among many. The
+use of MMA in LCD, Polycarbonate dental fillings from Bisphenol play an indirect role of
+demand for acetone in consumer electronics and industrial chemicals. Acetone and methanol
+have very similar normal boiling points (329.2 and 337.5K) and form a homogeneous minimumboiling
+azeotrope at 1atm with a composition77.6mol% acetone at 328K.
+540 kmol/hr of an equal-molar Acetone -Methanol mixture is fed to 24th stage of a 36th staged
+extractive distillation column. The entrainer from the recovery column along with the makeup
+stream is fed to the 4th stage giving an overhead pure acetone. The DMSO, heavy key(methanol)
+along with traces of acetone is fed to 8th stage of a 16th staged entrainer recovery column. High
+purity methanol is obtained at the overhead with pure DMSO at the bottom which is recycled
+back to the extraction column.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>7</Index>
+		<Description>
+Introduction
+This aim of this project was to convert existing literature into a steady state simulation of Syngas production using
+liquefied natural gas (R-LNG) as a raw material. The simulation uses the provided data of mass flow rates,
+temperature and pressure obtained from Fertilizers and Chemicals Travancore Ltd (FACT), ammonia plant.
+The novelty of using R-LNG is that it has a lower carbon/hydrogen ratio, resulting in a total reduction of
+steam: carbon ratio and subsequently reduces CO2 emissions and thus reduces the carbon footprint of the process.
+Ammonia is produced from a gaseous mixture comprising of mainly N2 and H2 in a 1:3 ratio. Conventionally ammonia plants
+use naphtha as a feedstock for syngas production serving as a source for H2 while the N2 is obtained from the air.
+Using naphtha as a feed generates high amount of CO2 due to higher carbon to hydrogen ratio. FACT wishes to upgrade its
+plant by introducing syngas production using R-LNG. This paper provides a simulation for the same.
+Process Description
+The ammonia production mainly consists of two steps:
+(1) Syngas Production
+(2) Ammonia Synthesis
+Part I will only be focused in this flow sheet. The unit operations included are steam reforming (primary reforming),
+air reforming (secondary reforming), CO shift reaction, CO2 removal and finally methanation. In the primary reformer,
+hydrocarbon reforming takes place in the presence of steam. This reaction is controlled to maintain 10.5% of
+hydrocarbon in the output stream that is necessary to perform complete air reforming in secondary reformer.
+In secondary reformer, the nitrogen for ammonia synthesis is produced by air reforming. Here heat is supplied
+by combustion. Burning gas provides heat for the rest of the reforming process.
+After the reforming section, the output stream contains H2, N2, CO, CO2 and along with minute presence of unreacted
+hydrocarbons. Removal of carbon oxides is carried out using shift convertors and CO2 absorber.
+In the CO shift conversion, the CO acts as reducing agent for water to yield H2 and CO2. Methanation
+is the simplest procedure to remove traces of carbon oxides from a stream. So using the above mentioned method,
+the concentration of carbon oxides is reduced.
+Syngas production or feed preparation for ammonia synthesis has been modeled using three conversion reactors and two
+equilibrium reactors. In this particular work, desulphurized R-LNG acts as a hydrogen source. When this R-LNG is
+reacted with steam, it gets reformed in a primary reformer which is a conversion reactor. Air is added to the second
+conversion reactor (secondary reformer) to obtain the nitrogen. Shift conversion reactions take place in next
+two equilibrium reactors. It is followed by CO2 absorption, for the removal of CO2 from the feed. Later a methanator unit,
+which is a conversion reactor, is used to remove traces of carbon oxides from the stream.
+
+Reactions
+The following reactions take place in their respective reactors:
+Primary reforming
+(a) CH4 + H2O -> CO + 3H2 (Conversion reaction)
+(b) CH4 + 2H2O ->CO2 + 4H2 (Conversion reaction)
+(c) CO + H2O -> CO2 + H2 (Equilibrium)
+Secondary reforming
+(a) CH4 + 2O2 -> CO2 + 2H2O (Conversion reaction)
+(b) CH4 + 1.5O2 -> CO + 2H2O (Conversion reaction)
+Shift conversion
+(a) CO + H2O -> CO2 + H2 (Equilibrium reaction)
+Methanation
+(a) CO + 3H2 -> CH4 + H2O (Conversion reaction)
+(b) CO2 + 3H2 -> CH4 + 2H2O (Conversion reaction)</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>8</Index>
+		<Description/>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>9</Index>
+		<Description/>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>10</Index>
+		<Description/>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>11</Index>
+		<Description>
+Background: Emission of volatile organic compounds from processes is closely
+regulated. Both the Environmental Protection Agency (EPA) and the Occupational
+Safety and Health Administration (OSHA) have established regulations and
+standards covering emissions and frequency of exposure. This problem concerns
+the first step of the removal of benzene vapor from an exhaust stream, designed
+to recover 95% of the benzene from air by compression. The exit pressure needs
+to be calculated using Raoult’s Law.
+Description of the flowsheet: In this example air-benzene mixture containing
+0.982 mole fraction of air, at 26 degree Celsius and 1 atm pressure is sent at the
+rate of 1kg/s(feed) to an adiabatic compressor the increase in pressure is 142
+atm this is calculated using Raoult’s Law. Next the compressed mixture is sent to a
+cooler to bring its temperature down to 26 degree Celsius. This brings about
+condensation of benzene vapors, air is essentially non-condensable. The adiabatic
+compressor and cooler, together act as an isothermal compressor. Next the
+Vapor-Liquid mixture is sent to a flash separator to separate liquid benzene
+from
+the vapor. Purified air is sent to a valve which reduces its pressure from 143 atm
+to 1 atm. This air can be further purified or let out depending on the safety
+standards.
+Results:
+1) Purified air at 26 degree Celsius and 1atm contains benzene in the
+mole fraction of 0.000904 which is very close to the desired value of 0.000916.
+2) The liquid from the flash separator contains 95% of the initial benzene
+and very small mole fraction(0.001645) of air.
+3) The energy required for the various components of the flowsheet can be
+readily calculated using DWSIM and the total energy required for the process is
+equal to 751.833KW.
+Conclusion:
+1) Though air is essentially non-condensable a very small mole
+fraction of air does get condensed.
+2) The amount of benzene separated from air can be increased by increasing the
+pressure in the compressor.
+3) Adiabatic compressor and the cooler together act as an isothermal compressor
+which results in the condensation of the benzene vapors.		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>12</Index>
+		<Description/>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>13</Index>
+		<Description>
+Background:
+A steam turbine is a device that extracts thermal energy from pressurized
+steam and uses it to do mechanical work on a rotating output shaft. Its
+modern manifestation was invented by Sir Charles Parsons in 1884.
+Because the turbine generates rotary motion, it is particularly suited to be
+used to drive an electrical generator.
+The steam turbine is a form of heat engine that derives much of its
+improvement in thermodynamic efficiency from the use of multiple stages in
+the expansion of the steam, which results in a closer approach to the ideal
+reversible expansion process.
+Description of the flowsheet:
+Water at 65 degree Fahrenheit, 14.7 psi and a mass flow rate of 2000 pound
+mass /hour is sent into a pump to increase its pressure to 250 psi. This water at
+high pressure is heated to its boiling point using a boiler (401 degree Fahrenheit).
+This vapor is now super-heated in a heater to 550 degree Fahrenheit to ensure
+that condensation of the steam doesn’t occur in the adiabatic expander. This
+superheated vapor is sent to a turbine in which steam expands adiabatically and
+rotates the shaft which is connected to an electromagnet to produce electricity.
+The spent steam is sometimes recycled to be reused.
+Results:
+1) Energy produced in the steam turbine is 101.31988KW
+2) Energy required to raise the temperature of water to its boiling point
+is 684.342KW
+2) Energy required to superheat the steam is 52.743 KW.
+Conclusion:
+1) Steam turbines usually operate at efficiencies around 30-40%.
+2) Energy produced is almost 1/7 of total energy given to steam,
+hence steam should be recycled to save energy.		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>14</Index>
+		<Description>
+Background:
+A thermal power station converts heat energy to electrical energy. In thermal power plants closed loop steam driven turbines are extensively used. Water is heated, turns into steam and spins a steam turbine which drives an electrical generator. After it passes through the turbine, the steam is condensed in a condenser and recycled to where it was heated initially. This is known as a Rankine cycle. The greatest variation in the design of thermal power stations is due to the different heat sources, fossil fuel dominates here, although nuclear heat energy and solar heat energy are also used. In addition to generating electrical power, thermal power plants are also designed to produce heat energy for industrial purposes of district heating, or desalination of water.
+Description of flowsheet:
+Steam at 8kg/s enters the adiabatic turbine at 500 degree Celsius and 10000kPa pressure and runs the turbine. The turbine operates at 75% efficiency and generates about 19858kW of power output. The expanded steam exits the turbine at 60 degree Celsius and 20kPa pressure. This steam is further cooled to 40 degree Celsius where 6684kW of energy is extracted. Now the steam has condensed to water and is recycled again. This water output from the cooler is pumped to a boiler with an increase in pressure back to it feed pressure of 10000kPa. The pump used has 75% efficiency. Now the water which enters the boiler at elevated pressure is again heated up to 500 degree Celsius to get back the initial steam feed conditions. The energy input for the heater is 26441kW which is used up to boil it to the feed conditions. Now this steam output from the boiler is fed to the adiabatic turbine to complete the closed cycle steam turbine system.
+Results:
+The following results are readily calculated by DWSIM
+1) 26441kW of energy input is required for the boiler.
+2) The pump requires 101kW of energy input.
+3) The total energy input is 26542kW.
+4) The energy output from the adiabatic turbine is 19858kW and from the cooler is 6684kW.
+5) The total energy output is then 26542kW.
+Conclusions:
+1) The required energy input to boil the water and get required steam is obtained by combustion of fossil fuels or other various methods is effectively converted to shaft work which is converted to electrical energy.
+2) The cooler used can be a heat exchanger where the output energy calculated will be used to heat the inlet cooling fluid into the exchanger.
+		</Description>
+		<PythonCode/>
+	</Sample><Sample>
+		<Index>15</Index>
+		<Description/>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>16</Index>
+		<Description>
+Background: Vapor Compression Refrigeration system is one in which the
+refrigerant undergoes phase changes, is one of the many refrigeration cycles and
+it is widely used method for air conditioning and in automobiles. It is also used in
+domestic and commercial refrigerators, large-scale warehouses for chilled or
+frozen storage of foods and meats, refrigerated trucks and railroad cars, and host
+of other commercial and industrial services. Oil refineries, petrochemical and
+chemical processing plants and natural gas processing plants are among the many
+industrial plants that often utilize large vapor-compression refrigeration systems.
+In very basic terms, refrigeration systems are used to remove heat from one area
+and transfer it into another area.
+Description of the flow-sheet: The vapor compression system simulated here
+uses propane as the liquid refrigerant medium because of its favorable properties.
+Circulating refrigerant enters the adiabatic compressor in the thermodynamic
+state known as saturated vapor, the compressor increases it pressure and
+temperature and propane leaves the compressor in the super-heated vapor state.
+This super-heated vapor now enters the condenser which converts it to a
+saturated liquid at the same pressure. Now this saturated liquid is at a high
+pressure hence it is throttled with the help of a valve and a vapor-liquid mixture
+at atmospheric pressure is sent to an evaporator which converts the mixture to
+saturated vapor and the outlet stream from the evaporator is recycled and sent
+as the input to the adiabatic compressor.
+RESULTS:
+1) Saturated propane vapor enters the compressor at a temperature of 230K
+which is desired temperature for the refrigeration of certain products and 1 atm.
+2) Propane leaves the compressor at 298K which is around the ambient
+temperature.
+3) Energy spent on various operations is as follows
+i) Evaporator energy: 232.749 KW
+ii) Condenser energy: 348.2409 KW
+iii) Compressor energy: 115.491 KW
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>17</Index>
+		<Description>
+Background: A Carnot engine is an engine which operates on the reversible
+Carnot cycle. The basic model for this was developed by Nicolas Sadi Carnot in
+1824. A heat engine acts by transferring energy from a warm region to a cool
+region of space and in that process, converting some of that energy to mechanical
+work. The cycle may also be reversed. The system maybe worked upon by an
+external force and in the process, it can transfer energy from a cooler system to a
+warmer one, thereby acting as a refrigerator or heat pump rather than a heat
+engine.
+Carnot’s theorem:
+No engine operating between two heat reservoirs can be more efficient than a
+Carnot engine operating between the same reservoirs.
+W is the work-done by the system
+QH is the energy put into the system
+Tc is the absolute temperature of the cold reservoir
+TH is the absolute temperature of the hot reservoir
+Description of the flow-sheet:
+Gas at high temperature (in this case Helium at 600K) absorbs heat from heat
+reservoir reversibly and hence undergoes an
+isothermic expansion this is modeled with the help of a valve (also called the
+isothermal expander). Now the outlet from this is sent to an adiabatic
+expander
+where the gas undergoes an expansion and hence a decrease in its temperature
+till it reaches the temperature of the cold reservoir . The gas now rejects heat
+isothermally into the cold reservoir reversibly and this can be modeled as an
+isothermal compression using a valve (also called the isothermal
+compressor).
+Now the gas is sent into an adiabatic compressor where its temperature and
+pressure are increased until its properties are identical with that of the inlet
+stream this is accomplished using the recycle block.
+Results:
+1) Temperature of gas before and after isothermal expansion is 600 K
+2) Entropy change of gas after isothermal expansion = (7.755234-
+6.288268) = 1.466966 KJ/Kg.K. Therefore heat energy absorbed = 1.466966*600 =
+880.1796 KJ/kg.
+3) Temperature of gas before and after isothermal compression is
+475.023 K
+4) Entropy change of gas after isothermal compression = (6.288268-
+7.755234) = -1.466966 KJ/Kg.K Therefore heat energy absorbed =
+-1.466966*475.023 = -696.8425 KJ/Kg.
+5) Total heat energy absorbed = (880.1796-696.8425) = 183.3368 KJ/Kg.
+6) Hence efficiency is equal to (183.3368/880.1796) = 0.20829 or 20.83%.
+7) Efficiency from Carnot’s formula is equal to 1-(475.023/600) =
+0.208295 or 20.83%. Hence the results match.
+8) Total work done by adiabatic compressor and adiabatic expander are
+equal to 648.9549 KW.
+		</Description>
+		<PythonCode/>
+	</Sample><Sample>
+		<Index>18</Index>
+		<Description>
+Background:
+The process in which the moisture or water vapour or the humidity is removed
+from the air keeping its dry bulb (DB) temperature constant is called as the
+dehumidification process. This process is represented by a straight vertical line
+on the psychrometric chart starting from the initial value of relative humidity,
+extending downwards and ending at the final value of the relative humidity. Like
+the pure humidification process, in actual practice the pure dehumidification
+process is not possible, since the dehumidification is always accompanied by
+cooling or heating of the air. Dehumidification process along with cooling or
+heating is used in number of air conditioning applications.
+Relative humidity in dwellings should preferably range from 30 to 50%.
+Dehumidifiers reduce humidity levels, making a room less hospitable to
+allergens such as dust mites, mold, and mildew.
+Dehumidifiers are used in industrial climatic chambers, to reduce relative
+humidity and the dew point in many industrial applications from waste and fresh
+water treatment plants to indoor grow rooms where the control of moisture is
+essential.
+Description of flowsheet:
+The feed enters at a flowrate of 3600kg/h and a relative humidity of 68% at
+100kPa pressure and 20 degree Celsius temperature. This feed air enters the
+compressor which increases the pressure to 275kPa. Now the compressed air is
+cooled to 20 degree Celsius temperature using a cooler. This cooled air is passed
+on to a gas liquid separator where the condensed water can be separated. The
+gas-liquid separator separates the condensed liquid which is at a flowrate of
+16.85kg/h. The top product of the gas-liquid separator is depressurised to
+100kPa using a valve. The product obtained from the valve is the dehumidified
+air which is having a relative humidity of 36.3%.
+Results:
+1) Dehumidified air is obtained at 36.3% relative humidity.
+2) The compressor requires 62.781kW of energy
+3) The cooler gives out 74.263kW of energy.
+Conclusions:
+1) This process gives a net output of 11.482kW energy which can be used for
+other processes.
+2) The more we compress the inlet air, higher amount of water is condensed
+which gives higher degree of dehumidification.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>19</Index>
+		<Description/>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>20</Index>
+		<Description>
+Background:
+Benzene Toluene Fractionation to produce pure benzene via Benzene Distillation during the past decade, multivariable controllers for have been extensively applied in ethylene plants. These control applications have increased process efficiency and plant capacity.
+By now, the technology is well understood and widely accepted. The only obstacle to further implementation and better maintenance is the cost and the majority of the cost lies in the model identification step.
+The Benzene/Toluene fractionator is part of an aromatics extraction unit. The aromatics are extracted from an aromatics rich stream using liquid/liquid extraction. The benzene is separated from the aromatic extract in a distillation column. The light and heavy key components are benzene and toluene, respectively. The relative volatility for these compounds is approximately 2.5, making this a separation with a moderate reflux to feed ratio required. This means that incremental benefits of better control are moderate and justifying a major control project for such an application can be a challenge. But, the benefits of better control are not insignificant, especially with the high cost of energy, in recent years.
+Description of flowsheet:
+The equimolar mixture of benzene and toluene feed enters at 100kmol/h at 25 degree Celsius in to a preheater heat exchanger where it is heated up to 40.32 degree Celsius by the bottoms of the distillation column. The preheated feed then enters the 11th stage of the 24 staged distillation column which is operating with 1 atm condenser and boiler pressure at a reflux ratio of 10. The distillate obtained has 0.91 mole fraction of benzene at 55kmol/h and the bottoms is obtained at 45kmol/h at 110.4 degree Celsius temperature which is recycled to a heat exchanger and used to preheat the feed. The distillate is hence purified benzene which is obtained at 82 degree Celsius is the final product. The cooled bottoms at 83 degree Celsius is highly pure toluene with a mole fraction of 0.999 which is also of high importance to the industry. The Roult’s Law property package is used in the flowsheet.
+Results:
+1) Distillate obtained is benzene with mole fraction of 0.91.
+2) The bottoms is highly pure toluene with mole fraction of 0.999.
+3) The total power requirement for the process is 255kW which is readily calculated by DWSIM.
+4) The condenser duty is 5259kW and the reboiler duty is -5514kW.
+5) The feed is preheated from 25 degree Celsius to 40 degree Celsius by the bottoms which in turn cools from 110 degree Celsius to 83 degree Celsius.
+Conclusions:
+1) The distillate concentration can be varied by varying the reflux ratio in the distillation column. By increasing the reflux ratio, higher purity of benzene can be obtained.
+2) The bottoms is at 110 degree Celsius and hence this heat can be effectively used to preheat the feed or elsewhere.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>21</Index>
+		<Description>
+Background:
+The recent surge in crude-oil prices and issues of energy independence and carbon
+dioxide emissions have generated new interest in bio fuels. Ethanol is now being produced on a fairly
+large scale for blending into gasoline. Qurishi et al discuss the advantages of n-butanol over ethanol:
+lower heat of vaporization, lower vapour pressure, higher octane number, and higher energy
+density.
+Some opportunities that can change the dynamics of the n-butanol industry in the years to
+come include the demand supply-gap in China(being a major importer),
+ rising investments in Saudi Arabia's oil and gas downstream sector, and increasing demand of biobased butanol.
+ However, the concentration of nbutanol produced in the batch fermenter is quite low (20 g/L) because of toxicity problems.
+In addition,acetone and ethanol are also produced, which must be removed from the mixture coming from the fermenter.
+Traditional Bio based processes produce n-butanol amongst the other isomers. Butanol forms an azeotrope
+with water at 0.5 atm,780C with compositions around 77.85% water, 22.15% n-butanol . Breaking the
+azeotrope ; with the vapour from two absorbers coupled with a decanter forms the basis for the separation. The
+flow sheeting source is
+DESCRIPTION :
+Feed at 780C is admitted to a re-boiled absorber at an intermediate stage of a 10 stage column. The
+aqueous liquid from the decanter(Recycle to the 1st column) at 700C is fed to the top stage. A small fraction
+of vapour in the feed, at a higher temperature and the liquid undergo a flash at each stage. The feed
+composition of 0.98 water,0.02 butanol on the right extreme of azeotropic composition; ensures the fraction of
+water in vapour is reduced(as evident from the T-X-Y diagram above) leaving the over-head product richer in
+butanol as compared to that in feed.
+The organic phase from the decanter(also a recycle) is fed to a 10 stage re-boiled absorber. The
+composition of over-head vapour almost near to the azeotrope. The vapours from the 2 columns are fed to a
+mixer which in turn is cooled to 700C , to bring it to a liquid-liquid phase.(as seen in T-X-Y Diagram).
+Now, the liquid is fed to a decanter(with appropriate models defined for Liquid-Liquid Separation) where the
+aqueous and organic phases are separated , which in turn are used as reflux for the respective columns.
+
+Conclusions and Recommendations :
+1. The process is highly sensitive to change of property methods during simulation. Methods such as
+UNIQUAC, MODIFIED UNIFAC(DORTMUND),NRTL support VLLE for flash calculations.
+2. Generate a phase diagram while using a given property method. For the T-X-Y drawn above, the NRTL
+method won't give desired results for the given system. 98% feed water in NRTL model is usually a region,
+not outside the LLE; while one expects to be outside.
+3. The Re-boiled absorber unit operation in DWSIM usually takes longer time to converge. One has to know
+how to set the tolerance limits if the basis is on mole fraction of the bottom. For simulation of sensitive
+azeotropic mixtures, a CAPE OPEN plugin model is used. The Prausnitz interaction parameters for this
+system is loaded from ChemSep. Make sure to install ChemSep to simulate and view detailed results.
+4. The reboiler load for 10 or 20 stages is not so much significant. 10 stages are usually taken to reduce capital
+costs. A new DWSIM plugin to evaluate process costs is also available
+5. Process takes place at 0.5 atmosphere, which decreases boiling points of the respective components(Refer
+T-X-Y diagram) so that cooling water can be used in a cooler for a desired temperature reduction.
+6. Extensive Temperature Control on the top plate of the column, rigorous decanter modelling to include
+settling time has to be done for dynamic control of the system. Disturbances in feed is a major factor.
+7. The feed is introduced at an intermediate stage if the butanol composition is below 2%. The configuration is
+different for higher mole %. It is directly fed to decanter in such cases.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>22</Index>
+		<Description>
+BACKGROUND:
+The large amount of carbon dioxide in the natural gas from the well dictates the use of
+an extractive distillation system to separate the ethane from the carbon dioxide because of an azeotrope.
+The bottoms from the ethane recovery column is called natural gas liquid (NGL) and is fed to three
+distillation columns operating in series. The feed is a mixture of Ethane(C2) , Propane (C3), Iso-butane
+(iC4), n-butane (nC4), iso-pentane (iC5), and n-pentane (nC5). Propane, Butane, Iso-butane are removed
+successively in a high pressure 3 stage distillation columns.
+PROCESS DESCRIPTION :
+The first column is a De-Propanizer. The separation of Propane from the butane isomer
+mixture is a bit difficult. The column has 50 stages with Condenser Pressure at 17 atm. The top and
+bottom pressure is 17.1 and 17.5 atm respectively. High pressure in the condenser allows usage of
+cooling water for temperature reduction. Feed enters at 17.4 atm to the 18th Stage.
+Design specifications for this column are 0.01% Iso butane ,all ethane in distillate ; 0.1mol% propane in
+bottoms.
+The second column is a De-Butanizer. Its function is to take the iC4 and nC4
+components overhead for subsequent separation in the downstream column. The separation in the
+debutanizer is between the nC4 and the iC5, which is fairly easy with a relative volatility of 2.2 at 322 K.
+A column with 31 stages is used, operating at 7.1 atm with feed reduced to a pressure of 7.3 atm to stage
+16.
+The design specifications are 0.2 mol % iC5 in the distillate and 0.2 mol % nC4 in the bottoms.
+The third column is a De-IsoButanizer. Separation between iC4 and nC4 is relatively
+difficult, so a 80 stage column is used. It operates at 6.6 atm with feed admitted to stage 39.
+he design specifications are 2 mol % nC4 in the distillate and 2 mol % iC4 in the bottoms.
+CONCLUSIONS AND RECOMMENDATIONS:
+1. Because the iC4/nC4 separation is quite difficult (1.3 relative volatility at 322 K), this separation is to
+be performed when the mixture is essentially binary so as to minimize energy requirements. So, the De-
+Butanizer is followed by De-IsoButanizer.
+2. The feed stage and the corresponding Reboiler Duty can be played around to achieve the minimum
+heat load which reduces operating costs.
+3. The process is sensitive to thermodynamic parameters defined. A very small fraction of vapours do
+appear that are specific to the models defined.
+4. The bottom product from De-Propanizer is sent to through a pressure varying value to the inlet of De-
+Butanizer. The out -let pressure of the valve at over-head of column 2 is modified, to bring the entire
+5. The thermodynamic parameters defined in a custom Chem-Sep model is as follows.
+K Value Prausnitz
+EOS Peng-Robinson 76
+Solution Regular
+Enthalpy Excess,Modified Antoine Parameters loaded.
+6. For Dynamic Simulation, Single-end control structures are widely used in industry with one control
+degree of freedom used to control a temperature or a composition. Setting the other control degree of
+freedom requires selecting between a reflux ratio structure and a refluxto-feed structure. In addition, the
+issue of whether to use molar ratios		</Description>
+	</Sample>
+	<Sample>
+		<Index>23</Index>
+		<Description>
+INTRODUCTION:
+Methylal, also called dimethoxymethane, is an important intermediate that is widely used in
+many fields for its exceptional dissolving ability, extremely low viscosity, amphiphilic characteristics, low
+surface tension and particularly high evaporation rate. A high purity of methylal is needed when it is used
+for making perfume,pharmaceuticals or as a molecular weight modifier for polyacetal resin. Unfortunately,
+methylal and methanol forms a minimum-boiling azeotrope at atmosphere pressure with 94.06 wt %
+methylal. Thus a methylal-methanol mixture cannot be separated completely through a simple distillation
+process.
+Purification of methylal by a membrane process involves degradations and weak permeating
+flows which makes it harder to consider an industrial development by using organic membranes. Extractive
+distillation can be an alternative. It involves adding a third substance(entrainer/solvent) that can alter the
+molecular properties of the two compounds of interest. Since, it has different affinities to the key
+components, addition of the entrainer causes an increase in the relative volatility of the light and heavy key
+components. It is generally preferred when the relative volatility of key component is 1.1 and a small
+amount of entrainer is added to the products separated which is inevitable. A make-up stream is added to
+account for the solvent losses.
+PROCESS:
+The mixture "Methylal/Methanol/Water" is fed to the 42nd stage of 52 staged extractive
+distillation column with the solvent DMF(Di-Methyl Form amide) fed to the 4th stage. The presence of
+entrainer alters the relative volatility between the two, causing pure Methylal to move towards the top and
+mixture toward the bottom of the column.
+The mixture is fed into the 9th stage of a 22 stage recovery column to produce almost pure
+Methanol at the top and almost pure solvent at the bottom. It is recycled back to the extractive distillation
+column and merged with one additional pure make-up stream to account for the solvent losses.
+CONCLUSIONS AND RECOMMENDATIONS:
+1. The system is sensitive to thermodynamic models and interaction parameters loaded.
+2. Because entrainer is a dominant factor in the feasibility and economy of extractive distillation, several
+rules for entrainer selection have been proposed. More recently, computer aided molecular design of
+entrainer for extractive distillation based on a genetic algorithm has been presented. It facilitates the choice
+of extractive agent through a computer program.
+3. For the separation of a methylal/methanol mixture by using extractive distillation, various entrainers
+have been recommended such as water, aqueous alkaline solutions, ethylene glycol(EG),paraformaldehyde
+and dimethylformamide (DMF). DMF introduces no further azeotrope in the system and shows a higher
+relative volatility (1.833), it is chosen as the most suitable entrainer. This large relative volatility allows an
+economical separation sequence.
+4. Residue curve - composition trajectory of the residue liquid in the still during open equilibrium
+evaporation.
+Residue curve map - diagram that shows residue curves for different initial still compositions for a given
+mixture in the composition space.
+Saddle - singular point with finitely many paths both approaching and departing.
+The RCM of the methylal-methanol-DMF ternary system mapped by Chem-Sep using UNIQUAC the model
+is shown in Figure.It can be seen that the methylal-methanol azeotrope is the unstable node, DMF is the
+stable node, and both methylal and methanol are the saddles. The resulting residue curves with arrows point
+to pure DMF. It can be seen that no distillation boundary exists.This is an ideal situation for selection of an
+extractive distillation process.
+5. It is known that for the extractive distillation process, an increase in the entrainer flow rate will reduce the
+heat duty of the extractive distillation column,but the heat duty of the entrainer recovery column will
+increase, and a larger column diameter is expected. Thus, a trade-off between the extractive distillation
+column costs(include both the fixed capital costs and operating costs) and entrainer recovery column costs
+needs to be made. So there exists an optimal entrainer flow rate that minimizes TAC for fixed theoretical
+plates. Qiaoyi et al discuss the heat integration with the entrainer recovery costs in detail.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>24</Index>
+		<Description/>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>25</Index>
+		<Description/>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>26</Index>
+		<Description/>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>27</Index>
+		<Description>
+Background
+One of the important process in the chemical engineering is the natural gas processing.
+Moreover, improved production methods due to increased supply and decreased cost of natural gas
+has gone to make the process much more significant. Though the composition of natural gas varies
+from source to source but it mostly constitute of methane (85%) with small amount of ethane,
+propane, n-butane, isobutane and heavier hydrocarbons. C2 and heavier hydrocarbons are more
+valuable than methane and hence it is very important to recover them. C2 and heavier hydrocarbons
+are called as Natural Gas Liquid. Recovery is accomplished in a series of five distillation columns.
+Description of the Flowsheet
+Recovery of hydrocarbons from the natural gas feed is achieved by using series of
+distillation columns. First, methane is separated out in a high pressure cryogenic distillation column
+using expansion. The column is named as de-methanizer and designed in a way to keep low
+concentration of methane in its bottom product. The column is operated at 25 atm and 180 K. Deethanizer
+is the second column used in the process to recover ethane. The column operates at 21 atm
+and 264 K. Refrigeration is used in the condenser and column is designed such that distillate only
+has specified concentration of propane impurity. De-propanizer is the third column used in the
+process to recover propane as distillate, operating at 17 atm and 322 K. Cooling water is used in the
+condenser and designed such that bottom only has specified concentration of propane impurity. Debutanizer
+is the fourth column to carry n-butane and isobutane as overhead product for further
+separation in another column. Due to lowest relative volatility of iC4/nC4, its separation is most
+difficult. Hence its separation is performed after all the lighter and heavier components are
+removed. Also it makes the process more economical. The column is operated with reflux drum
+temperature of 322 K and 7.1 atm pressure.
+The last column is de-isobuanizer. It separates isobutane as distillate and n-butane as bottom. The
+column is designed in a way such that n-butane has specific concentration as impurity in distillate
+and isobutane as impurity in bottoms. Column is operated at 322 K temperature and 6.6 atm
+pressure.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>28</Index>
+		<Description/>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>29</Index>
+		<Description>
+BACKGROUND
+Ammonia is one of the most important chemicals used in industries for the commercial production of fertilizers and many other uses. It contributes significantly to the nutritional needs of terrestrial organisms by serving as precursor to food and fertilizers. The global production for ammonia was 176 million tonnes in 2014. Ammonia can be obtained by dry distillation of nitrogenous vegetable and animal waste products it can also be produced by the distillation of coal, but the most important process is Haber’s process being used worldwide for the production of ammonia.
+DESCRIPTION OF FLOW SHEET
+The process starts with mixing two streams of hydrogen at 1 bar and nitrogen at 8 bars which are introduced at 27 degrees and then fed to the compressor where the pressure is increased by 10 bar ,then they are introduced into to the equilibrium reactor where ,in the presence of iron catalyst at a temperature of around 850 degrees and at a pressure of around 100 bar , occurs an exothermic reversible reaction.
+N2+3H2 ↔ 2NH3 ΔHr = -91796.00 KJ/kg
+Ammonia is formed along with some unconverted hydrogen and nitrogen . The formed ammonia is then passed through a cooler, where it is cooled by extracting heat from it .Then the stream containing mixture of ammonia ,hydrogen and nitrogen is send to the component separator where the upper stream consisting of hydrogen is recycled back to the main stream of hydrogen via cooler where the temperature is considerably decreased from 857 K to 300 K and the other stream from the component separator consisting of a mixture of nitrogen and ammonia is given to the another component separator where pure stream of ammonia comes out as the main product and the nitrogen is again recycled back to the main stream via cooler .
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>30</Index>
+		<Description/>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>31</Index>
+		<Description>
+Background:
+The by far dominating production method of methanol synthesis Is through the synthesis
+gas process first developed during 1920.A gas mixture of hydrogen and carbon monoxide
+(and also carbon dioxide)known as synthesis gas (syngas) is the basis for almost all methanol
+production today.
+The production of methanol basically consists of three main steps syngas preparation,
+methanol synthesis and methanol purification
+Description of flowsheet
+The flowsheet used for methanol synthesis consist of a mixer to mix the recycle stream and
+feed stream, conversion reactor,the cooler to cool the products,separator to separate gases
+and the liquids and a purifier to purify the methanol.
+First the feed consists of H2 and CO in the ratio of 2.25. The reactants are fed along with
+the recycle of CO and H2 in to the conversion reactor.The reactions that are possible in the
+conversion reactor are below.
+CO + 2H2 => CH3OH
+CO + 3H2 => CH4 + H2O
+2CO + 2H2 => CH4 + CO2
+The products from the reactor are then sent to a cooler unit where the products are cooled.
+The gases and liquids that are formed due to cooling are separated and these gases are sent
+to Recycle. H2 and CO are sent into the mixer to mix with feed stream. The liquid products are
+then sent to a decompressor to decompress them to 14atm. And after decompressing these
+sent to gas liquid separator to separate gases and liquids. The liquid product are sent to (CS)
+compound separator to separate methanol form remaining components that are present.
+We get methanol as the product.
+
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>32</Index>
+		<Description>
+Main reaction: Toluene + Hydrogen  Benzene +Methane
+Reaction Conditions : 600 -650 deg C, 20 to 60 bar
+Catalysis: Chromia on porous carrier
+The process flow diagram for the process is shown in Figure 1.
+The fresh toluene feed (no.1) along with recycle stream (no.11) is pressurized and mixed with hydrogen (no.3 and no. 5). The mixture is fed to a heater (E-101) followed by furnace heater (H-101) to increase the temperature to around 600 deg C. The heated stream (no.4) along with a small fraction of recycled hydrogen stream (no. 7) is introduced into a packed bed catalytic reactor (R-101). The reactor effluents are cooled and fed to phase separators (V-102 and V-103) to separate unreacted hydrogen along with product methane. A part of the separated gases is recycled back and the rest is collected as fuel gas (no.16). The liquid stream (no. 10) from the second phase separator is fed to distillation column after passing through the feed heater (E-103). The distillation column separates the light key component (benzene) which is subsequently cooled and stored (no.15). The bottom heavy component (toluene) is recycled back to the toluene vessel.
+The following points need to be noted while creating this flowsheet in DWSIM:
+a) A single heat exchanger was used to raise the feed temperature to the reaction temperature as there are no provisions of fired heater in DWSIM
+b) The side reactions were ignored
+c) The reactor operation was considered isothermal
+d) One pass conversion of 75% was used for simulation
+e) The three recycle loops (Two for hydrogen and one for toluene) were used. However, they were found to be extremely sensitive to the guess values fed to the solver and solutions were not converging. The initial guess values were improved by trial and error.
+f) The data given in Turton et al, 2013 was used as the basis to create the sheet and confirm the simulation results from DWSIM
+g) Instead of V-104, a phase separator was used to allow separation of vapors (no.19)
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>33</Index>
+		<Description>
+Background
+Esterification is a chemical process for making ester. The most common method of making esters are heating
+carboxylic acid with an alcohol and removing water from it. Esters are normally produced by a batch process in
+industries using mineral acid catalyst likeH2So4. The Esterification of acetic acid with 1-butanol is expressed as:-
+1-butanol + Acetic acid ->
+
+N-butyl acetate +Water
+The reaction is a reversible reaction. N-Butyl acetate is used as a flavoring ingredient, solvent in the production of
+lacquers and other products. It is also used in synthetic fruit flavoring.
+Description of flow sheet
+Two pure streams of 1-butanol and acetic acid at were fed into reactive distillation column at 50 kmol/hr, 1 atm and
+298.15 K. Reactive distillation column was introduced from CAPE-OPEN and chemsep was used to input the data.
+In a 34 stages simple distillation column acetic acid was fed at 13 stage and 1-butanol at 16 stage. Water and small
+fraction of N-butyl acetate is obtained from top and from bottom N-Butyl acetate is obtained. To separate the water
+and N-butyl acetate a decanter is used. Decanter was introduced from CAPE-OPEN using chemsep data. Reflux
+ratio to operate the column is 2. Molar flow rate of product (N-butyl acetate) is 50.036 Kmol/hr and for by-product
+(water) is 49.96 Kmol/hr.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>34</Index>
+		<Description>
+Background
+Cumene, also known as isopropylbenzene, is used as a thinner in paints, lacquers and
+enamels. It is a component of high octane motor fuels. Cumene is used to manufacture other
+chemicals such as phenol, acetone, acetophenone and methyl styrene. It is also in used in the
+manufacture of rubber, iron and steel, and pulp and paper.
+The production of Cumene involves reaction of benzene with propylene in a high temperature, high
+pressure gas phase reactor:
+There is also a sequential reaction of cumene and propylene to form undesirable product, pdiisopropylbenzene:
+Both these reactions are irreversible.
+Description
+Fresh feed streams of benzene and mixed C3 enters the process as liquids. Feed streams after being
+mixed are fed to the vaporizer and leaves at 483.15 K and 25 bar. It is pre-heated in two heat
+exchangers. The first recovers heat from the hot reactor effluent at 692.15 K. The second adds
+additional heat to bring the reactor inlet temperature up to 647.15 K. Then the stream enters a
+tubular reactor which leaves as reactor effluent at 692 K and is cooled to 607K through feedeffluent
+heat exchanger.
+The reactor effluent is further cooled down to 363 K using a condenser and sent to a flash drum by
+reducing the pressure to 1.7 atm through a pressure reduction valve. The gas stream obtained from
+the tank is used as fuel and the liquid stream is fed to first distillation column. The first column
+comprises of 15 stages with feed being fed in the 8th stage. Benzene is obtained as distillate in the
+top which is recycled back to the reactor. The stream obtained as bottoms is fed to another
+distillation column. Second column has 20 stages and feed is sent in the 12th stage. Cumene of
+higher purity is obtained as distillate and p-diisopropylbenzene is obtained in the bottoms.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>35</Index>
+		<Description>
+Background and Description:
+Air Separation Process is an integration of separation columns and heat exchanger. The
+process is driven by compressing air at inlet of the unit. Compressed air is cooled and partially
+liquefied against leaving product streams. In the first column, nitrogen is separated at a pressure of
+6 bar and then condensed against boiling oxygen at a pressure around 1.2 bar. In the high pressure
+column, liquid bottom product is rich in oxygen. The rich liquid is cooled using Joule-Thomson
+effect to run the condenser of a side rectifier that separates Argon from Oxygen. It is fed with
+vapour side draw from low pressure column. A part of air leaves the unit as waste stream due to the
+additional requirement of cooling which is obtained using Joule-Thomson effect in an expander ,
+which feeds compressed air directly to the low pressure column. Gaseous Oxygen and Nitrogen,
+liquid Argon are obtained as products. Purity of Gaseous Oxygen ranges from 97.5 to 99.5 %.
+Peng-Robinson Model was used to solve the flowsheet with binary interaction parameters as N2/O2
+= -0.0133, N2/Ar = -0.0026, O2/Ar = 0.0089.
+The liquid stream from the Argon Column is fed back to the low pressure column. This serves as
+tear stream for the flowsheet. Following heat integrations in the Air Separation Unit is shown:
+cooling of feed against products stream in main heat exchanger, Low Pressure condenser against
+High Pressure reboiler, condensation of Argon against evaporization of rich liquid.
+In the flowsheet, the purity of liquid argon and gaseous oxygen obtained are less than what they
+normally are. This is due to limit in number of stages in the separation column used. If the Argon
+Column is equipped enough stages along with structured packings, it is possible to reduce the
+impurities to less than 1 ppm.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>36</Index>
+		<Description/>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>37</Index>
+		<Description/>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>38</Index>
+		<Description>
+Background
+EtOH is naturally produced by fermentation of sugars by yeasts or via petrochemical processes.
+Its chemical formula is C2H6O. Ethanol first use was to power an engine in 1826, and in 1876,
+Nicolaus Otto, the inventor of the modern four-cycle internal combustion engine, used ethanol to
+power an early engine. Ethanol is mostly used in beverage industry. Other industries in which
+ethanol is used are paint, pharmaceuticals, etc.
+Description
+EtOH and water azeotrope mixture (0.87 EtOH and 0.13 H2O) at 100 Kmol/hr and temperature
+311K is feed to distillation column at a stage 1. A mixture of EtOH, H2O and benzene from
+make-up mixer is also feed to column at stage 5. From bottom of column a stream of ethanol is
+obtained having 0.99 EtOH at 65.49Kmol/hr. A stream from bottom of decanter is feed to second
+distillation column at stage 1. From the bottom of the second distillation column a stream is
+obtained having 0.99 mole fraction water at 18.69 Kmol/hr. Top products from both the column
+is feed to a mixture followed through a cooler. The cooled stream is feed to a decanter.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>39</Index>
+		<Description>
+BACKGROUND
+FORMALIN (37 wt% of formaldehyde in water) is majorly produced from methanol. Formaldehyde and urea is used to make urea-formaldehyde resins which is an adhesive use for plywood.
+Methanol is oxidized in the presence of air to form formaldehyde and water and some of the methanol is also decomposed to give formaldehyde and hydrogen which is separated by compound separator.
+CH3OH + O2 HCHO + H2O ΔHRXN = -37.3 kcal/mol
+CH3OH HCHO + H2 ΔHRXN= 20.3 kcal/mol
+PROCESS DESCRIPTION
+Fresh Methanol (stream 2) mixes with recycle methanol (stream 18) in mixer (mixer-001) is pumped by pump (PUMP-001) and then passed through the heat exchanger to vaporised methanol. Stream 6 is at temperature 423.15 K and 314.7 kPa pressure. Fresh air which is mixture of oxygen and nitrogen is available at 250C and 1 atm. It is compressed (COMPRESSOR-001) to 300 kPa and is preheated by passing it through heat exchanger (HE-002) to temperature of 200oC and is mixed with vaporised methanol from stream 6 in mixer (MIXER-003) with is then feed to a reactor. Exothermic reaction occurs in the reactor with is operated at define outlet temperature with energy stream (ESTR-003).Conversion of methanol is around 80% for oxidation reaction and 25% for decomposition reaction. Output of reactor is again given to heat exchanger (HE-003) which decreases the temperature of stream to 360K. Outlet of heat exchanger (stream 10) is mixed with water (stream 1) in mixer (MIXER-004). Then it is given to the compound separator where hydrogen produce during decomposition of methanol is separated along with nitrogen present in air utilizing energy stream (ESTR-004).Some traces of formaldehyde, methanol and oxygen also separated in separator. Now outlet of separator is given to distillation column where separation of methanol from reaction mixture takes place. Condenser and reboiler duties are attached to the column. Heavy component is water and light is methanol. Formaldehyde will follow water as it is associated with it. Top product from column that is distillate is pumped through pump (PUMP-002) which is passed through recycle loop and is given to mixer (MIXER-001). Bottom product is collected and pumped through to higher pressure. Composition of product is around 32 mole% of formaldehyde with some traces of methanol present.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>40</Index>
+		<Description>
+Abstract: Natural gas is predominantly methane. Liquefying natural gas has several advantages,
+the main one being it’s transportation ease and safety. Claude refrigeration cycle is the basis of
+various improvisations for liquefying natural gas. Claude cycle consists of all three processes for
+liquefying gases. Namely isobaric cooling, throttling and expansion from which work is
+obtained. Moreover recycle stream is heat integrated with feed stream.
+Therefore the flow sheet converged is composed of 1. Mixer 2. Adiabatic compressor 3. Cooler
+4. Heat exchangers 5. Splitter 6. Throttle valve 7. Gas-Liquid separator 8. Adiabatic expander
+Flowsheet requires three recycle blocks.
+Objective is to find what fraction of stream that enters regenerative system is liquefied? The
+lesser is the temperature before throttling the more is the fraction methane liquefied.
+One can also study effect of split ratio on liquefaction process.		</Description>
+		<PythonCode/>
+	</Sample>
+</DataSet>
