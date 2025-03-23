@@ -16,7 +16,7 @@ for sample in root.findall('Sample'):
 
     try:
         # Load Python files
-        with open(f'resources/pythoncodes/{index}_generated_sim.py', 'r') as file:
+        with open(f'rag_system/resources/pythoncodes/{index}_generated_sim.py', 'r') as file:
             content = file.read()
             if python_code is None:
                 python_code = content

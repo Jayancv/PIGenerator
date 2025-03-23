@@ -35,15 +35,18 @@ def write_to_file(file_path, content, mode='w'):
         file.write(content)
 
 
-def work_flow(user_input, background, llm_client, retry_count):
+def work_flow(user_input, llm_client):
     config = llm_client.config
-    # Retrieve context if using RAG retrieval (omitted here for brevity)
+    retry_count = config.args.retry
+    use_rag = config.args.use_rag
 
     # **STEP 1: Retrieve Relevant Details using RAG**
-    if config.args.retrieval:
-        retrieved_details = get_retrieved_details(input)
+    if use_rag:
+        retrieved_details = get_retrieved_details(user_input)
         if retrieved_details:
-            context = '\n'.join(f"- {item['Description']}" for item in retrieved_details)
+            context = '\n'.join(
+                f"Context {i + 1} \n {item['Description']} \n Sample python code \n {item['PythonCode']}" for i, item in
+                enumerate(retrieved_details))
         else:
             context = "No relevant context found in the dataset."
     else:
@@ -52,9 +55,7 @@ def work_flow(user_input, background, llm_client, retry_count):
     task_id = datetime.now().strftime('%Y%m%d%H%M%S%f')
     with open('templates/prompt_template.md', 'r', encoding='utf-8') as f:
         prompt_template = f.read()
-    prompt = (prompt_template.replace('[KEYWORDS]', background)
-              .replace('[INPUT]', user_input)
-              .replace('[OUTPUT]', ""))
+    prompt = (prompt_template.replace('[CONTEXT]', context).replace('[INPUT]', user_input))
 
     messages = [
         {"role": "system", "content": "You are an Pipe and Instrumental diagram design expert."},
@@ -124,16 +125,17 @@ def work_flow(user_input, background, llm_client, retry_count):
     while retry and retry_count > 0:
         iterate += 1
         if exe_err:
-            execution_error, error_info, final_code_path = retry_handler.execution_error_retry(messages, iterate, task_id,
-                                                                                           model_dir, error_info)
+            execution_error, error_info, final_code_path = retry_handler.execution_error_retry(messages, iterate,
+                                                                                               task_id,
+                                                                                               model_dir, error_info)
 
             if execution_error == 1:
                 retry = True
                 exe_err = True
             else:
-                exe_err=False
+                exe_err = False
 
-        if (execution_error == 0 or exe_err ) and cmp_err:
+        if (execution_error == 0 or exe_err) and cmp_err:
             comp_error, comp_code_path = retry_handler.component_error_retry(messages, iterate, task_id, model_dir,
                                                                              user_input, raw_code)
             if comp_error == 1:
@@ -149,8 +151,6 @@ def work_flow(user_input, background, llm_client, retry_count):
         else:
             retry_count -= 1
 
-
-
     if execution_error == 0:
         retry_handler.pdf_generation(llm_client.model, task_id, messages, final_code_path, retry_count)
     final_messages_path = f"{model_dir}/p{task_id}/p{task_id}_{iterate}_messages.txt"
@@ -165,21 +165,17 @@ def main():
 
     df = pd.DataFrame(data, index=[0])
 
-    model_name = df.loc[0, 'model']
+    # model_name = df.loc[0, 'model']
     input_prompt = df.loc[0, 'description']
-    keywords = df.loc[0, 'keywords']
-    api_key = df.loc[0, 'api_key']
-    retry_count = df.loc[0, 'retry_count']
+    # keywords = df.loc[0, 'keywords']
+    # api_key = df.loc[0, 'api_key']
+    # retry_count = df.loc[0, 'retry_count']
+    # use_rag = df.loc[0, 'use_rag']
 
-    if "gpt" in model_name:
-        client = openai
-    elif "deepseek-chat" in model_name:
-        client = openai  # Adjust as necessary
-    else:
-        client = None
     config = Config()
-    llm_client = LLMClient(config, client=client)
-    work_flow(input_prompt, keywords, llm_client, retry_count)
+
+    llm_client = LLMClient(config)
+    work_flow(input_prompt, llm_client)
 
 
 if __name__ == "__main__":

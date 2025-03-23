@@ -43,7 +43,11 @@ class RetryHandler:
     def pdf_generation(self, model_name, task_id, messages, code_path, retry_count):
         with open('templates/prompt_template_save.md', 'r', encoding='utf-8') as f:
             template = f.read()
-        prompt = template.replace('[CODE]', code_path)
+
+        with open(code_path, 'r', encoding='utf-8') as code_file:
+            code_content = code_file.read()
+
+        prompt = template.replace('[CODE]', code_content)
         messages.append({"role": "user", "content": prompt})
         answer = self.llm_client.call_llm(messages)
         model_dir = self.llm_client.get_model_dir()

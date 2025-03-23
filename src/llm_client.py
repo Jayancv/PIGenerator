@@ -5,6 +5,11 @@ import subprocess
 
 import ollama
 import openai
+from openai import OpenAI
+# from ollama import chat
+# from ollama import ChatResponse
+# from ollama import Client
+
 from config import OPENSOURCE_MODELS
 from logger import setup_logger
 
@@ -25,17 +30,34 @@ IMPORT_DWSIM = (
     'clr.AddReference(dwsimpath + "System.Buffers.dll")'
 )
 
+
 class TimeoutException(Exception):
     pass
+
 
 def signal_handler(signum, frame):
     raise TimeoutException("timeout")
 
+
 class LLMClient:
-
-
     logger.debug("Initializing LLMClient")
-    def __init__(self, config, client=None):
+
+    def __init__(self, config):
+
+        if "gpt" in config.args.model:
+            client = OpenAI(api_key=config.args.api_key)
+            print("gpt client created...")
+        elif "deepseek" in config.args.model:
+            client = OpenAI(api_key=config.args.api_key, base_url="https://api.deepseek.com/v1")
+            print("deepseek client created...")
+        else:
+            url = config.args.base_url
+            if url:
+                client = ollama.Client(host=url)
+            else:
+                client = ollama.Client()
+            print("Ollama client created...")
+
         self.config = config
         self.model = self.config.args.model
         self.temperature = self.config.args.temperature
@@ -104,6 +126,8 @@ class LLMClient:
             return "gpt4o"
         elif "deepseek-chat" in self.model:
             return "deepseek2"
+        elif "deepseek-reasoner" in self.model:
+            return "deepseek1"
         elif any(model in self.model for model in OPENSOURCE_MODELS):
             return self.model.replace(":", "-")
         return "unknown"
