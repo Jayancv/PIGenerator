@@ -220,8 +220,16 @@ sim = interf.CreateFlowsheet()
 
     python_code += "\n# Adding Simulation Objects\n"
 
+    objectTagMap = {}
     for obj_name, obj in sim_objects.items():
         tag = graphic_objects.get(obj_name, {}).get("tag", "Dummy")
+        # Check if tag already exists and increment the counter if it does (to avoid duplicates)
+        if tag in objectTagMap:
+            objectTagMap[tag] += 1
+            tag = f"{tag}_{objectTagMap[tag]}"
+        else:
+            objectTagMap[tag] = 1
+
         obj_type = graphic_objects.get(obj_name, {}).get("objectType", "")
         if not obj_type:
             obj_type = obj["type"].split(".")[-1]  # Extract last part of type

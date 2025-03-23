@@ -2,6 +2,7 @@
 <DataSet>
 	<Sample>
 		<Index>1</Index>
+		<Title>Nitrogen Liquefaction using Linde Cycle</Title>
 		<Description>A process for gas liquefaction, particularly nitrogen liquefaction, which combines the use of a
 nitrogen auto-refrigeration cooling cycle with one or more closed-loop refrigeration cycles using
 two or more refrigerant components. The closed-loop refrigeration cycle provide refrigeration
@@ -156,10 +157,10 @@ sim.ConnectObjects(AdiabaticExpanderCompressor1.GraphicObject, MaterialStream1.G
 sim.ConnectObjects(HeaterCooler2.GraphicObject, MaterialStream7.GraphicObject, -1, -1)  # HeaterCooler2 to MaterialStream7
 sim.ConnectObjects(HeatExchanger1.GraphicObject, MaterialStream5.GraphicObject, -1, -1)  # HeatExchanger1 to MaterialStream5
 sim.ConnectObjects(HeaterCooler1.GraphicObject, EnergyStream2.GraphicObject, -1, -1)  # HeaterCooler1 to EnergyStream2
-sim.AutoLayout()  
- # Save the flowsheet 
+sim.AutoLayout()
+ # Save the flowsheet
 fileNameToSave = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "gen_1.xml")
- 
+
 interf.SaveFlowsheet(sim, fileNameToSave, False)
 
 
@@ -184,7 +185,7 @@ str = MemoryStream()
 d.SaveTo(str)
 image = Image.FromStream(str)
 imgPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "img_1.png")
- 
+
 image.Save(imgPath, ImageFormat.Png)
 str.Dispose()
 canvas.Dispose()
@@ -193,16 +194,19 @@ bmp.Dispose()
 	</Sample>
 	<Sample>
 		<Index>2</Index>
+		<Title></Title>
 		<Description/>
 		<PythonCode/>
 	</Sample>
 	<Sample>
 		<Index>3</Index>
+		<Title></Title>
 		<Description/>
 		<PythonCode/>
 	</Sample>
 	<Sample>
 		<Index>4</Index>
+		<Title>Hydrogen Production through Methane Catalytic Steam Reforming</Title>
 		<Description>Natural gas has been proposed as a source of hydrogen for fuel cell vehicle applications because
 of the existing infrastructure. In a process known as steam reforming, natural gas and steam are
 reacted into mostly carbon monoxide and hydrogen with some carbon dioxide also produced.
@@ -290,10 +294,10 @@ MaterialStream2.SetMassFlow(0.0946615522222222)  # Mass Flow in kg/s
 sim.ConnectObjects(Reactor_PFR1.GraphicObject, MaterialStream1.GraphicObject, -1, -1)  # Reactor_PFR1 to MaterialStream1
 sim.ConnectObjects(MaterialStream2.GraphicObject, Reactor_PFR1.GraphicObject, -1, -1)  # MaterialStream2 to Reactor_PFR1
 sim.ConnectObjects(EnergyStream1.GraphicObject, Reactor_PFR1.GraphicObject, -1, -1)  # EnergyStream1 to Reactor_PFR1
-sim.AutoLayout()  
- # Save the flowsheet 
+sim.AutoLayout()
+ # Save the flowsheet
 fileNameToSave = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "gen_4.xml")
- 
+
 interf.SaveFlowsheet(sim, fileNameToSave, False)
 
 
@@ -318,7 +322,7 @@ str = MemoryStream()
 d.SaveTo(str)
 image = Image.FromStream(str)
 imgPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "img_4.png")
- 
+
 image.Save(imgPath, ImageFormat.Png)
 str.Dispose()
 canvas.Dispose()
@@ -328,14 +332,15 @@ bmp.Dispose()
 	</Sample>
 	<Sample>
 		<Index>5</Index>
+		<Title>Solid Carbon Combustion</Title>
 		<Description>Combustion, or burning, is a high-temperature exothermic redox chemical reaction between a fuel (the reduc-
 tant) and an oxidant, usually atmospheric oxygen, that produces oxidized, often gaseous products, in a mixture
-termed as smoke. Combustion in a re produces a 
+termed as smoke. Combustion in a re produces a
 ame, and the heat produced can make combustion self-
 sustaining. Combustion is often a complicated sequence of elementary radical reactions. Solid fuels, such as
 wood and coal, rst undergo endothermic pyrolysis to produce gaseous fuels whose combustion then supplies
 the heat required to produce more of them. Combustion is often hot enough that incandescent light in the form
-of either glowing or a 
+of either glowing or a
 ame is produced. In this process, solid carbon mixed with air at 298.15 K and 101325
 Pa is sent to a conversion reactor. Reaction takes place between carbon and oxygen to form carbon dioxide
 where 100% conversion is considered for carbon.		</Description>
@@ -343,6 +348,7 @@ where 100% conversion is considered for carbon.		</Description>
 	</Sample>
 	<Sample>
 		<Index>6</Index>
+		<Title>Extractive Distillation of Methanol and Acetone</Title>
 		<Description>Acetone is used as a direct solvent and as a pioneer to the production of Methyl
 Methacrylate (MMA), Methacrylic Acid, Bisphenol-A, aldol chemicals to name among many. The
 use of MMA in LCD, Polycarbonate dental fillings from Bisphenol play an indirect role of
@@ -360,6 +366,7 @@ back to the extraction column.
 	</Sample>
 	<Sample>
 		<Index>7</Index>
+		<Title>Production of Natural Gas</Title>
 		<Description>
 Introduction
 This aim of this project was to convert existing literature into a steady state simulation of Syngas production using
@@ -411,21 +418,25 @@ Methanation
 	</Sample>
 	<Sample>
 		<Index>8</Index>
+		<Title></Title>
 		<Description/>
 		<PythonCode/>
 	</Sample>
 	<Sample>
 		<Index>9</Index>
+		<Title></Title>
 		<Description/>
 		<PythonCode/>
 	</Sample>
 	<Sample>
 		<Index>10</Index>
+		<Title>Process Flow sheet For Removal Of Iso-pentane in Gasoline Manufacturing Plant</Title>
 		<Description/>
 		<PythonCode/>
 	</Sample>
 	<Sample>
 		<Index>11</Index>
+		<Title>Air-Benzene Separation using compression</Title>
 		<Description>
 Background: Emission of volatile organic compounds from processes is closely
 regulated. Both the Environmental Protection Agency (EPA) and the Occupational
@@ -465,11 +476,13 @@ which results in the condensation of the benzene vapors.		</Description>
 	</Sample>
 	<Sample>
 		<Index>12</Index>
+		<Title></Title>
 		<Description/>
 		<PythonCode/>
 	</Sample>
 	<Sample>
 		<Index>13</Index>
+		<Title>OPEN CYCLE STEAM TURBINE</Title>
 		<Description>
 Background:
 A steam turbine is a device that extracts thermal energy from pressurized
@@ -503,6 +516,7 @@ hence steam should be recycled to save energy.		</Description>
 	</Sample>
 	<Sample>
 		<Index>14</Index>
+		<Title>Closed Loop Steam Turbine</Title>
 		<Description>
 Background:
 A thermal power station converts heat energy to electrical energy. In thermal power plants closed loop steam driven turbines are extensively used. Water is heated, turns into steam and spins a steam turbine which drives an electrical generator. After it passes through the turbine, the steam is condensed in a condenser and recycled to where it was heated initially. This is known as a Rankine cycle. The greatest variation in the design of thermal power stations is due to the different heat sources, fossil fuel dominates here, although nuclear heat energy and solar heat energy are also used. In addition to generating electrical power, thermal power plants are also designed to produce heat energy for industrial purposes of district heating, or desalination of water.
@@ -520,13 +534,16 @@ Conclusions:
 2) The cooler used can be a heat exchanger where the output energy calculated will be used to heat the inlet cooling fluid into the exchanger.
 		</Description>
 		<PythonCode/>
-	</Sample><Sample>
+	</Sample>
+	<Sample>
 		<Index>15</Index>
+		<Title></Title>
 		<Description/>
 		<PythonCode/>
 	</Sample>
 	<Sample>
 		<Index>16</Index>
+		<Title>VAPOR COMPRESSION REFRIGERATION CYCLE</Title>
 		<Description>
 Background: Vapor Compression Refrigeration system is one in which the
 refrigerant undergoes phase changes, is one of the many refrigeration cycles and
@@ -563,6 +580,7 @@ iii) Compressor energy: 115.491 KW
 	</Sample>
 	<Sample>
 		<Index>17</Index>
+		<Title>CARNOT ENGINE</Title>
 		<Description>
 Background: A Carnot engine is an engine which operates on the reversible
 Carnot cycle. The basic model for this was developed by Nicolas Sadi Carnot in
@@ -611,8 +629,10 @@ Results:
 equal to 648.9549 KW.
 		</Description>
 		<PythonCode/>
-	</Sample><Sample>
+	</Sample>
+	<Sample>
 		<Index>18</Index>
+		<Title>A Simple De-Humidification System</Title>
 		<Description>
 Background:
 The process in which the moisture or water vapour or the humidity is removed
@@ -655,11 +675,13 @@ which gives higher degree of dehumidification.
 	</Sample>
 	<Sample>
 		<Index>19</Index>
+		<Title></Title>
 		<Description/>
 		<PythonCode/>
 	</Sample>
 	<Sample>
 		<Index>20</Index>
+		<Title>Benzene Toluene Fractionation Unit</Title>
 		<Description>
 Background:
 Benzene Toluene Fractionation to produce pure benzene via Benzene Distillation during the past decade, multivariable controllers for have been extensively applied in ethylene plants. These control applications have increased process efficiency and plant capacity.
@@ -681,6 +703,7 @@ Conclusions:
 	</Sample>
 	<Sample>
 		<Index>21</Index>
+		<Title>HETEROGENEOUS AZEOTROPIC DISTILLATION OF BUTANOL AND WATER</Title>
 		<Description>
 Background:
 The recent surge in crude-oil prices and issues of energy independence and carbon
@@ -733,6 +756,7 @@ different for higher mole %. It is directly fed to decanter in such cases.
 	</Sample>
 	<Sample>
 		<Index>22</Index>
+		<Title>REFINERY LIGHT ENDS SEPARATION</Title>
 		<Description>
 BACKGROUND:
 The large amount of carbon dioxide in the natural gas from the well dictates the use of
@@ -779,6 +803,7 @@ issue of whether to use molar ratios		</Description>
 	</Sample>
 	<Sample>
 		<Index>23</Index>
+		<Title>EXTRACTIVE DISTILLATION OF METHYLAL/METHANOL USING DIMETHYL FORMAMIDE</Title>
 		<Description>
 INTRODUCTION:
 Methylal, also called dimethoxymethane, is an important intermediate that is widely used in
@@ -836,21 +861,25 @@ plates. Qiaoyi et al discuss the heat integration with the entrainer recovery co
 	</Sample>
 	<Sample>
 		<Index>24</Index>
+		<Title></Title>
 		<Description/>
 		<PythonCode/>
 	</Sample>
 	<Sample>
 		<Index>25</Index>
+		<Title></Title>
 		<Description/>
 		<PythonCode/>
 	</Sample>
 	<Sample>
 		<Index>26</Index>
+		<Title></Title>
 		<Description/>
 		<PythonCode/>
 	</Sample>
 	<Sample>
 		<Index>27</Index>
+		<Title>Separation of Natural Gas</Title>
 		<Description>
 Background
 One of the important process in the chemical engineering is the natural gas processing.
@@ -884,11 +913,13 @@ pressure.
 	</Sample>
 	<Sample>
 		<Index>28</Index>
+		<Title></Title>
 		<Description/>
 		<PythonCode/>
 	</Sample>
 	<Sample>
 		<Index>29</Index>
+		<Title>PRODUCTION OF AMMONIA THROUGH HABER‘S PROCESS</Title>
 		<Description>
 BACKGROUND
 Ammonia is one of the most important chemicals used in industries for the commercial production of fertilizers and many other uses. It contributes significantly to the nutritional needs of terrestrial organisms by serving as precursor to food and fertilizers. The global production for ammonia was 176 million tonnes in 2014. Ammonia can be obtained by dry distillation of nitrogenous vegetable and animal waste products it can also be produced by the distillation of coal, but the most important process is Haber’s process being used worldwide for the production of ammonia.
@@ -901,11 +932,13 @@ Ammonia is formed along with some unconverted hydrogen and nitrogen . The formed
 	</Sample>
 	<Sample>
 		<Index>30</Index>
+		<Title></Title>
 		<Description/>
 		<PythonCode/>
 	</Sample>
 	<Sample>
 		<Index>31</Index>
+		<Title>Synthesis of methanol</Title>
 		<Description>
 Background:
 The by far dominating production method of methanol synthesis Is through the synthesis
@@ -937,6 +970,7 @@ We get methanol as the product.
 	</Sample>
 	<Sample>
 		<Index>32</Index>
+		<Title>Production of Benzene via the hydrodealkylation of Toluene</Title>
 		<Description>
 Main reaction: Toluene + Hydrogen  Benzene +Methane
 Reaction Conditions : 600 -650 deg C, 20 to 60 bar
@@ -956,6 +990,7 @@ g) Instead of V-104, a phase separator was used to allow separation of vapors (n
 	</Sample>
 	<Sample>
 		<Index>33</Index>
+		<Title>ESTERIFICATION OF ACETIC ACID WITH 1-BUTANOL TO NBUTYLACETATE</Title>
 		<Description>
 Background
 Esterification is a chemical process for making ester. The most common method of making esters are heating
@@ -979,6 +1014,7 @@ ratio to operate the column is 2. Molar flow rate of product (N-butyl acetate) i
 	</Sample>
 	<Sample>
 		<Index>34</Index>
+		<Title>Production of Cumene from Benzene and Propylene</Title>
 		<Description>
 Background
 Cumene, also known as isopropylbenzene, is used as a thinner in paints, lacquers and
@@ -1008,6 +1044,7 @@ higher purity is obtained as distillate and p-diisopropylbenzene is obtained in 
 	</Sample>
 	<Sample>
 		<Index>35</Index>
+		<Title>Air Separation Unit</Title>
 		<Description>
 Background and Description:
 Air Separation Process is an integration of separation columns and heat exchanger. The
@@ -1035,16 +1072,19 @@ impurities to less than 1 ppm.
 	</Sample>
 	<Sample>
 		<Index>36</Index>
+		<Title></Title>
 		<Description/>
 		<PythonCode/>
 	</Sample>
 	<Sample>
 		<Index>37</Index>
+		<Title></Title>
 		<Description/>
 		<PythonCode/>
 	</Sample>
 	<Sample>
 		<Index>38</Index>
+		<Title>Separation of Ethanol-water using benzene as Entrainer</Title>
 		<Description>
 Background
 EtOH is naturally produced by fermentation of sugars by yeasts or via petrochemical processes.
@@ -1065,6 +1105,7 @@ is feed to a mixture followed through a cooler. The cooled stream is feed to a d
 	</Sample>
 	<Sample>
 		<Index>39</Index>
+		<Title>Production of Formalin from Methanol</Title>
 		<Description>
 BACKGROUND
 FORMALIN (37 wt% of formaldehyde in water) is majorly produced from methanol. Formaldehyde and urea is used to make urea-formaldehyde resins which is an adhesive use for plywood.
@@ -1078,6 +1119,7 @@ Fresh Methanol (stream 2) mixes with recycle methanol (stream 18) in mixer (mixe
 	</Sample>
 	<Sample>
 		<Index>40</Index>
+		<Title>Claude Process For Liquefying Methane</Title>
 		<Description>
 Abstract: Natural gas is predominantly methane. Liquefying natural gas has several advantages,
 the main one being it’s transportation ease and safety. Claude refrigeration cycle is the basis of
@@ -1090,6 +1132,598 @@ Flowsheet requires three recycle blocks.
 Objective is to find what fraction of stream that enters regenerative system is liquefied? The
 lesser is the temperature before throttling the more is the fraction methane liquefied.
 One can also study effect of split ratio on liquefaction process.		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>41</Index>
+		<Title>Production of Cyclohexane through Catalytic Hydrogenation of Benzene</Title>
+		<Title>Production of Cyclohexane through Catalytic Hydrogenation of Benzene</Title>
+		<Description>Background Cyclohexane is industrially produced from Benzene as it is not a naturally available resource.
+			Cyclohexane undergoes oxidation reactions yielding Cyclohexanone and Cyclohexanol which are precursors for the production of Adipic acid and Caprolactum.
+			Caprolactum is the raw material used for producing polymer Nylon-6. Benzene reacts with a mixture of hydrogen and methane in contact with a
+			Nickel based catalyst producing Cyclohexane. The conversion of this vapour phase reaction is almost 99%.
+Reaction involved: Benzene + Hydrogen  Cyclohexane (Vapour Phase)
+Reactor Used: Catalytic Packed Bed Conversion Reactor
+Reactor conditions: Outlet Temperature = 497 K, Pressure Drop = 1.02 atm
+Catalyst Used: Nickel Based Process Description Fresh benzene (370 kmol/h) and excess hydrogen (1470 kmol/h) is preheated to a temperature of 422 K and sent to a packed bed
+			reactor. A vapour phase reaction occurs in the reactor at 497 K which converts benzene to cyclohexane through catalytic hydrogenation of benzene.
+			The conversion of this reaction is about 99%. The reactor products are cooled to 370 K and sent through a pressure reduction valve which reduces the pressure
+			of the stream from 30 atm to 24 atm. A two stage separator separates the product cyclohexane from unreacted hydrogen and methane- first
+			at a high pressure (24 atm) and then at a lower pressure (3 atm). The unreacted hydrogen-methane mixture is recovered from the top of the flash column
+			and is sent to a splitter having a splittling ratio of 9:1. The smaller stream is sent as a recycle stream and mixes with fresh hydrogen, while the rest is
+			drawn out as fuel gas for incinerators. The bottom stream of the flash column having 99% (wt/wt) cyclohexane is sent as feed to a distillation column for
+			further purification. The column consists of 12 stages operating at a reflux ratio of 5:1. The residue from the column has our desired product
+			with a purity of 99.5% (wt/wt) cyclohexane.</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>42</Index>
+		<Title>DEHYDRATION OF ETHANOL USING ETHYLENE GLYCOL AS ENTRAINER</Title>
+		<Title>DEHYDRATION OF ETHANOL USING ETHYLENE GLYCOL AS ENTRAINER</Title>
+		<Description>BACKGROUND: The demand for ethanol is more owing to its various assay requirements in fields of Research and Design laboratories for spectral photometric drug standardisation, industries as a raw material for esters, agent in gasoline to improve octane index. The methods used for dehydration includes heterogeneous azeotropic distillation, pervaporation membranes and extractive distillation with salts. However, heterogeneous azeotropic distillation presents some constraints in terms of high order of non- linearity, distillation boundaries in the residue curves, long transients, multiple steady states and specific thermodynamic models for simulation. This is an attempt to discuss ethylene glycol as the potential extractive agent. PROCESS OVERVIEW:
+Ethylene Glycol is cheap, due to its extensive production as a part of manufacturing bio diesel. It also has the potential to modify the liquid-vapour equilibrium which helps in removing the water-ethanol azeotrope. Ethanol–water mixture at atmospheric pressure has a minimum-boiling homogeneous azeotrope at 78.1 C of composition 89 mol% ethanol. Thus, this mixture cannot be separated in a single distillation column and if it is fed to a column operating at atmospheric pressure, the ethanol purity in the distillate cannot exceed 89 mol% while high
+purity water can be produced out from the bottom.
+100 kmol/hr of an azeotropic feed is sent to the 10th stage of an 18 staged extractive distillation column. The entrainer make up along with the recycle from the Entrainer Recover column is sent to the 3rd stage. Glycerol changes the liquid activity coefficients, thereby the relative volatility leading to pure ethanol to the top and Glycerol- water mixture to the bottom. They are sent to the 4th stage of a 7 stage recovery column operating at a reduced pressure to separate the respective entrainer and water. Glycerol at the bottom is cooled recycled back to the extractive column and a small make up is added to account for entrainer losses.
+CONCLUSIONS AND RECOMMENDATIONS:
+1. The operating pressure of entrainer recovery column is at 0.02 atmosphere to prevent thermal degradation of Glycol.
+2. For a given Entrainer Feed Stage and Entrainer to Feed Molar ratio; there is an optimum reflux ratio that gives maximum ethanol purity. However, the value of the recycle ratio should be less to avoid energy losses during operation.
+3. Entrainer feed stage should be near to the condenser to improve ethanol purity and has no significant effect on energy consumption.
+4.Entrainer feed temperature has an important effect on the distillate composition and the reboiler energy consumption. It should be operated at temperature 5-15oC less than the top plate.
+5. Residue curve - composition trajectory of the residue liquid in the still during open equilibrium evaporation. Residue curve map - diagram that shows residue curves for different initial still composition for a given mixture in the composition space. Saddle - singular point with finitely many paths both approaching and depart.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>43</Index>
+		<Title>Ethylbenzene Production From Ethylene And Benzene</Title>
+		<Description>Background:
+Ethylbenzene is almost exclusively (>99%) used as an intermediate for the manufacture of styrene monomer. Styrene production, which uses ethylbenzene as a starting material, consumes approximately 50% of the world’s benzene production. Less than 1% of the ethylbenzene produced is used as a paint solvent or as an intermediate for the production of diethylbenzene and acetophenone.
+Ethylbenzene was first produced on a commercial scale in the 1930s in Germany and United States. Almost all ethylbenzene is produced commercially by alkylating benzene with ethylene, either in the liquid phase with aluminium chloride catalyst or in the vapor phase with a synthetic zeolite.
+Description of the Flowsheet:
+The ethylbenzene process involves the reaction of benzene with ethylene to form desired Ethylbenzene (EB) product. Herein, process undesirable product DEB (di-ethylbenzene) also forms due to side reaction. Herein, process benzene stream is fed up at rate of 630.6 kmol/h at 320K in mixer in which ethylene stream also mixed with same molar flow rate at 1 atm pressure. The well mixed slurry is fed up in Conversion Reactor-1 at 20 atm pressure where EB and DEB forms. Further this slurry is fed up in Conversion Reactor-2 with recycle stream of DEB at 19 atm pressure where DEB reacts with benzene to give EB. Herein, process for the separation of EB two distillation columns are used, in first DC-1 column benzene is recovered as distillate and recycle to mixer and at bottom EB and DEB found in proportion which further separated in DC-2 column. In DC-2 column EB is found in top product at rate 630.6 kmol/h and DEB found as bottom product which recycled to reactor-2 at 281.9 kmol/h. From the simulation below graph and results obtained.</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>44</Index>
+		<Title>title</Title>
+		<Description></Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>45</Index>
+		<Title>Methanol Synthesis From Syngas</Title>
+		<Description>Background:
+In presents day methanol is considered as important fuel because it may provide various petroleum based-liquid
+fuels and its extensive used is done because of its availability. It can be form by any renewable biomass hydrocarbon
+source by partial oxidation to produce synthesis gas, which is then converted into methanol.
+Here, simulation carried out for a process which converts synthesis gas into methanol. In process conversion reactor
+is used to react hydrogen with the carbon monoxide and carbon dioxide in the synthesis gas to produce methanol.
+Flowsheet Description:
+Herein, process fixed amount of synthesis gas is used for feed. In process, “Peng-Robinson” property model is used
+except distillation column. The process can divided into four section,
+(1) Compression and Reactor Preheating
+(2) Reactor
+(3) Separator, Recycle, and Vent
+(4) Flash and Distillation
+In compression, synthesis gas at 51.2 bar is compressed in a two-stage compression system to 110 bar. Then three
+recycle gas streams are added, and the gas stream enters in heat exchanger at 53°C. Here, for reaction conversion
+reactor is used, in which two reactions carried out with 64% and 17% conversion of carbon monoxide and carbon
+dioxide respectively. After complete reaction reactor effluent is cooled to 174°C in heat exchanger, it is further
+cooled to 38°C. Then most of vapor stream is compressed back to 110 bar and fed up into high pressure separator,
+from which a small fraction is vented off at a flow rate of 840 kmol/h. For removing light components from the
+stream flash separator is used which operated at 2 bar. The liquid from the separator is fed up in 42-stage distillation
+column on stage 27. The column operates at 1 bar; a small vapor side stream from the column is recycled and is
+compressed back up to 110 bar. From the column at top High pure methanol about (99%) is obtained and as bottom
+(99%) water obtained. From the process simulation following graph and results obtained.</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>46</Index>
+		<Title>TRIPLE PRESSURE SWING COLUMN FOR SEPARATION OF TERNARY
+ACETONITRILE-METHANOL-BENZENE AZEOTROPIC SYSTEM</Title>
+		<Description>Operational Relevance:
+A complex and common ternary mixture of Acetonitrile-Methanol-Benzene mixture is
+encountered in Chemical and Pharmaceutical industries. Acetonitrile is used in Lithium ion batteries,
+Methanol with the recent implementations to blend in with petrol to mitigate pollution and Benzene
+in the polystyrene industries. The exposure to these chemical cause irritation of central nervous
+systems. Therefore , its attractive and necessary to separate and reuse these chemicals to protect
+environment and conserve resource. It is difficult to attain with conventional distillation due to
+presence of a ternary azeotrope with varied distillation boundaries.
+		The influence of pressure on the azeotropic composition and temperature is a decisive factor and
+Residue Curve maps at different operating pressures are used to ascertain the optimization
+parameters for this multi-component separation. A pressure swing moves the distillation boundaries
+that lie between the corresponding purity values of desired products, thereby making the separation
+feasible.
+Process Flowsheet:
+The process consists of 3 Pressure swing columns (referred C1,C2,C3) operating at 608-
+101.326-608 KPa pressures respectively. 1000 kg/hr of feed (0.7 M - 0.2 A- 0.1B) is fed to the 37th
+stage of a 47 staged distillation column (C1) along with the recycle stream of the C3 fed to 28th
+stage. The bottoms has pure Acetonitrile while the distillate (D1) is sent to C2 where it is faced with
+a reduced pressure. D1 is fed to the 18th stage of a 50 staged Column with the bottoms yielding
+pure methanol and overhead (D2) fed to C3. D2 is fed to the fourth of 14 staged column where the
+bottoms is pure benzene and the overhead is recycled back to C1. The Residue Curve Map for the
+compositions at the given pressure is shown below.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>47</Index>
+		<Title>Tetrahydrofuran/Water Pressure Swing Azeotripic Distillation</Title>
+		<Description>Background:
+Simulations were performed to obtain highly pure tetrahydrofuran (THF) with over 99.9 mole% from the mixture of THF and water. Pressure swing distillation (PSD) was used since the azeotropic point between tetrahydrofuran and water can be varied with pressure. A commercial process simulator, PRO/II with PROVISION release 8.3, was used for the simulation studies. The Wilson liquid activity coefficient model was used to simulate the low pressure column, and the Peng-Robinson equation of state model was added to correct the vapour phase non-idealities for the modelling of the high pressure column.
+Description of the Flowsheet:
+The water pressure swing azeotropic distillation process involves the separation of tetrahydrofuran (THF) and water mixer and to form desired water product and tetrahydrofuran product. Herein no side products produce during the process. Here mixer of raw materials fed up in the heat exchanger1 (H/E1) with 2000kmol/h at 308K and 1 atm pressure. The outlet of H/E1 fed up to the distillation column1 (DC1) and top product of DC1 fed up to the H/E2 through the pump. Bottom product of DC1 further fed up in the H/E1 and outlet of the H/E1 having 0.99999 water.
+From the H/E2 the material fed into the distillation column2 (DC2) and top product of DC2 fed up to the DC1 with 276.68 kmol/h. bottom product of DC2 fed into the H/E2 and outlet of H/E2 having .09999 THF.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>48</Index>
+		<Title>Simulation and Optimization of TEALARC LNG Plant</Title>
+		<Description>About Flowsheet:
+Herein, process simulation is carried out for TEALARC LNG Plant in which liquefied natural gas (LNG)
+produced. The LNG was produced by use of refrigeration cycle which made up of four major
+components: compressor, evaporator, expansion valve and condenser. Basically, refrigeration system
+removes energy from a low-temperature region and transfer heat to a high-temperature region. Mainly
+there are two types of refrigeration cycle; here we considered vapor compression cycle.
+In TEALARC LNG Plan there are two sections to be consider are:
+- pre-cooling cycle
+- liquefaction cycle
+Pre-cooling cycle: This cycle primarily consists of propane and ethane gas which is cooled from a
+temperature of about 86°C to -64°C at a five pressure level. The cooling is achieved by the use of cooler
+and energy is recycled by use of thermal energy mixer which can give further energy to heater for heating
+purpose. Herein, flowsheet it noted with (PLNG100; PLNG101; PLNG102). The adiabatic compressor is
+used to compress the vapour to about 2260KPa at three pressure level. The compressed stream is further
+condensed and recycles back to cooler to continue he circulation.
+Liquefaction cycle: The liquefaction cooling cycle consists two compressors and gas-liquid separator and
+there is also heating and cooling arrangement is controlled via use of thermal energy mixer which noted
+as (LNG100; LNG101; LNG102). In separator vapor and liquid fraction is spitted.
+In process, treated natural gas is feed into heat-exchanger where, is cooled from 30°C to about -52°C
+while second outlet stream of exchanger is superheated from about -56°C to about -4°C. This stream is
+compressed by compressors (K102 and K101) and subsequently cooled and recycled to pre-cooling plant.
+The natural gas feed is further sub-cooled in cooler and partially liquefied. After that it further cooled and
+liquefied at it’s at a temperature of -157°C, which is about the boiling point temperature of methane gas.
+The pressure of the natural gas stream is further reduced to the atmospheric pressure with the help of the
+expander there by reducing the temperature to about -163°C. Then, liquefied natural gas is flashed. From
+the simulation following results obtained:</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>49</Index>
+		<Title>BTX DIVIDED WALL COLUMN</Title>
+		<Description>About flowsheet:
+The divided-wall column is a practical way to implement the topology of the Petlyuk column that features two columns with interconnected vapor and liquid streams arising from a single reboiler and a single condenser. The dynamic control of the divided-wall column has been explored in a relatively small number of papers. Control is more difficult than with a conventional two-column separation sequence because there is more interaction among controlled and manipulated variables since the four sections of the column are coupled.
+The BTX involves separation of benzene, toluene and p-xylene mixture and to form desire products. In the process three side stream produce. Here raw material fed up in to the prefrac column with 1 kmol/s, 358 K and 1atm pressure. The top product of column fed in to mainfrac column with 0.64140174 kmol/s, 141.08182 K temperature and 0.37000049 atm and the bottom product fed in to mainfrac column with 1.3116154 kmol/s, 357.6269 K temperature and 0.37000049 atm pressure. There are three side streams outlet from the mainfrac column in which one of the side stream gave final product of toluene with 0.296 kmol/s, 351.2307 K temperature and 0.37000049 atm and two streams are further connected in to prefrac column. The top product (benzene) of the mainfrac column with the 0.29779501 kmol/s, 323.25563 K temperature and 0.37000049 atm pressure. The bottom product (p-xylene) of the mainfrac column with 0.40416887 kmol/s, 377.64258 K temperature and pressure was 0.37000049 atm.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>50</Index>
+		<Title>Energy Efficient Hybrid Separation Processes</Title>
+		<Description>Acetic acid is the second simplest carboxylic acid (after formic acid). It consists of a methyl
+group attached to a carboxyl group. It is an important chemical reagent and industrial chemical, used
+primarily in the production of cellulose acetate for photographic film, polyvinyl acetate for wood glue,
+and synthetic fibers and fabrics. In households, diluted acetic acid is often used in descaling agents. In
+the food industry, acetic acid is controlled by the food additive code E260 as an acidity regulator and as
+a condiment. In biochemistry, the acetyl group, derived from acetic acid, is fundamental to all forms of
+life. In this flow sheet the final product Pure Acetic acid which is produced by methods of Energy
+Efficient Hybrid Separations of Acetic acid and water using ethyl acetate as a solvent.
+Hybrid Separations utilize distillations, extraction, absorptions and other concepts. These methods
+increase the efficiency with reducing costs of production. They also help in saving energy by reducing its
+consumption. Therefore, this method is becoming widely known and is being used for manufacturing
+several chemicals of industrial importance.
+Process Description:
+First the acid water feed is fed into the extractive distillation column at a temperature of 298.15K and
+101325 Pa pressure. Solvent recycled from the Decanter is also added to this column. At the end of this
+process we have an Extract and Raffinate.
+The Extract is sent to the acid recovery column to produce a top product and an acid product. The acid
+product is removed and the top product is cooled using a cooler to 298.15K This mixture is then sent to
+a decantation unit.
+The Raffinate is sent to the mixer where water from the decanter is mixed and it goes to solvent
+recovery unit in which steam is also added at 373.15K and 101325 Pa pressure. The top product is sent
+to a cooler which after cooling is sent to the decantation unit.
+Therefore, there are two feeds coming into the decantation unit. Both cooled to 298.15K. After
+Decantation takes place, the bottom product which is water is send to mixer for further use in the
+solvent recovery unit and the top product is sent to a mixer where make up ethyl acetate is added. This
+mixture is recycled back to the first distillation column and enters the distillation column with the acid
+water feed.
+The molar flow rate of acetic acid, ethyl acetate and water is shown in the Results table below.
+Therefore, high purity acetic acid is obtained by Hybrid Separation Processes which are energy efficient,
+considerably reducing costs.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>51</Index>
+		<Title>NATURAL GAS PROCESSING SIMULATION</Title>
+		<Description>
+			INTRODUCTION
+GAIL, Gandhar plant is one of the major plants of Gas Authority of India Ltd (GAIL). Natural gas being one of the most important raw materials containing light hydrocarbons with different uses has to be processed to get desired light hydrocarbons for designated usage.
+In the Gandhar plant, Natural Gas supplied by ONGC is processed to get LPG, pentane and lean gas as output. The design capacity of the plant is 5.0 MMSCMD, though it is currently running at 4.2 MMSCMD due to decreased supply of Natural Gas as less available currently. This plant is designed by Engineers India Ltd. (EIL). Many of the plants’ equipments have been licensed by various licensing companies, including SOLAR Turbines Inc., Linde, ROTOFLOW, PSA Nitrogen Limited while the Plant Control Interface Software was licensed by Honeywell automation. The cost of the project is Rs. 356 crores generating sales of 82 lakhs per day from LPG, 30 lakhs per day from Naphtha, 3.5 lakhs per day from Pentane leading to a consolidated turnover of 3332 Lakhs per month. The expenditures amount to 2323 lakhs per month. Thus, GAIL earns a net profit of around 900 lakhs PM MOTIVATION BEHIND THE PROJECT
+The plant design made of equipments coming from different licensors and currently handling such large volumes of natural gas input makes the simulation necessary to look for various areas of improvement possible. One of the major regions of concern before building such a plant on a large scale is whether the plant will work for the given conditions of equipment working as well as of the raw material. This can be investigated theoretically first by simulations, to verify the validity of the process flowsheet.
+Another important motivation behind this project was aimed towards analyzing usage of Open Source process simulation software DWSIM as compared to the normal licensed softwares such ASPEN which is one of the most preferred softwares for such applications in the industry. The software licensing costs are quite high and using open source software could considerably decrease these expenses which are significant towards developing chemical plants. To comprehend the level of reliability and versatility of open source softwares, one good way would be to simulate existing plants demonstrating the same using them.
+Thus, need for improvement for getting better profits as well as to analyze and comprehend the robustness of open source software DWSIM makes the project a good thing to work upon.
+
+			All the data pertaining to the process were input at the required place. The following assumptions were taken:
+The input raw material has zero water vapour. This was assumed to remove dryer as a component in the flowsheet as water would not affect any process ahead and adding a complex component like dryer is difficult in DWSIM
+The heat integration and energy integration implemented in the chiller as well as the compressor-expander system was not done as efficiency of its working is not known. Since, we knew the parameters of input and output streams of these sections, we are able to take the streams ahead for further processing in the software.
+4 Chiller streams are provided as per need but separately and not in one common unit for simplicity purposes.product stream specifications
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>52</Index>
+		<Title>Industrial production of Acetone by dehydrogenation of Isopropanol</Title>
+		<Description>BACKGROUND:
+Acetone is one of the most important industrial solvent being used in industries from a long back. A lot of interest is being shifted to acetone derived chemicals .It is widely used as a volatile compound in paints and varnishes .the global requirement of acetone in India is estimated to be 55000 tons annually It was initially prepared by dry distillation of metal acetates but recently a number of methods have been devolved including biosynthesis, Cumene process etc .One of the most economical process is by the dehydrogenation of Isopropanol followed by fractionation.
+PROCESS DESCRIPTION:
+The process starts with a pure stream of Isopropanol being introduced in an equilibrium reactor, where a temperature of 530 K and a pressure drop of 10 bars is maintained .On an account endothermic reaction takes place and heat is absorbed during the process.
+CH3CH (OH) CH3  -> CH3COCH3 + H2 ΔHr= +57000KJ/Kmol
+.The top product of the reactor is given to a flash separator, where a pressure drop of 2000 pa is maintained and hydrogen is separated as a lighter product at the top and mixture of Isopropanol and acetone is taken as a bottom product .This product is then mixed with the stream from the end process and fed to a 12 stage distillation tower, where a pressure of 1 atm and a reflux ratio of 1.5 is maintained. The top product contains pure Acetone having purity of 99 percent and the side stream and bottom product contains mixture of Isopropanol and traces of acetone which again given to a distillation column where same conditions are maintained, the bottoms and the side stream of this column contains Isopropanol which is recycled back and mixed with the feed of distillation column. In this process 99 percent of acetone is produced with most of the unreacted Isopropanol being recycled and energy is recycled wherever feasible.</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>53</Index>
+		<Title>CONVENTIONAL/ UNUSUAL PRESSURE SWING DISTILLATION OF ISOBUTANOL AND N-HEPTANE</Title>
+		<Description>Here simulation is carried out for separation of Isobutanol and N-heptane which generated during production of triisobutyl vanadate. This mixture is separated for the reuse of the reactants to reduce cost of raw material. For the separation of this mixture special distillation techniques may used like Azeotropic distillation, Extractive distillation, Pressure Swing distillation etc. But among this pressure swing distillation (PSD) received research attention because of its advantages like simple configuration, possibility of heat integration and main not to require third component as used in Azeotropic distillation.
+Pressure Swing Distillation is commonly used for azeotrope separation in which based on changing pressure the separation makes easier as pressure is changed the composition of mixture also changes which then form minimum or maximum azeoptrope. Herein case for isobutanol if pressure is increased then minimum azeotrope will move to maximum azeotrope [1].
+PROCESS: Here two flowsheet are simulated for the separation of isobutanol and N-heptane. For simulation data are obtained from Yinglong Wang’s works .Two flowsheet simulated one of conventional pressure swing distillation and second one unusual pressure swing distillation. Both are same except unusual pressure swing distillation in which one of the product is carried out from top of the column and in conventional all products withdrawn from bottom of columns. In both flowsheet feed is contains 0.2 mol N-heptane and 0.8 mol isobutanol. However recycle stream having different proportion of mole fraction of both component and also molar flow. For getting nearer results to literature here NRTL method used and also coefficient data are fitted. Below data are used for column set-up.
+		For simulation I assumed here that feed stream will have temeperature of 40°C and also Isobutanol is taken as 2-methyl-1-propanol due to unavailability in DWSIM database for isobutanol component. LPC (low pressure column) operates at 1 atm pressure in which isobutanol is separated at bottom of the column at a rate of 80.06 Kmol/h and top product of the column is sent to HPC (high pressure column) which operates at 4 atm pressure from this column N-heptane is obtained as bottom product and top product is recycle back to LPC at a rate of 49.07 Kmol/h.
+		Unusual Pressure Swing Distillation:
+Here same condition assumed that feed will have temperature of 40°C and enters in LPC which operates at 1 atm pressure from the column as bottom product isobutanol is obtained at a rate of
+80.08 Kmol/h and top product is sent to HPC which operates at 12 atm pressure from which as a top product N-heptane is obtained and bottom product is recycle back to LPC at a rate of 51.55 Kmol/h.
+		During simulation it’s observed that process has sensitivity toward selection of proper coefficient calculation method because the selections of method directly influence the purity data of both columns.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>54</Index>
+		<Title>Production of Maleic Anhydride from benzene</Title>
+		<Description>BACKGROUND
+Maleic anhydride is an important raw materials used in the manufacture of phthalictype
+alkyd and polyester resins, surface coatings, lubricant additives, plasticizers
+(qv), copolymers (qv), and agricultural chemicals Asia-Pacific is the largest as well as
+the fastest-growing market for maleic anhydride, whereas, North America and Europe
+are the second and third largest markets. The rapid growth in the end use industries,
+improved standard of living, and strong foothold of the major market players are the
+key factors driving growth of maleic anhydride market in Asia-Pacific.
+PROCESS DESCRIPTION
+Main reaction: Benzene + Oxygen —> Maleic Anhydride + carbon dioxide + water
+catalyst : vanadium and molybdenum oxide mixture on an inert support
+benzene is vaporised in heat exchanger E601 and then mixed with compressed
+air .the mixture is sent to fired heater to heat the feed to desired temperature inlet
+conditions.the reaction is highly exothermic and hence ration of air to benzene in the
+feed mixture is kept high.conversion reactor is used to convert benzene into maleic
+anhydride and combustion products .the unreacted benzene ,maleic anhydride and
+combustion products are cooled and sent to absorption tower (compound separator)
+for separation of combustion gases and product an organic solvent (dibutyl phthalate)
+is used to absorb maleic anhydride into it .The down product is sent to the separation
+tower to further separate malice anhydride and dibutyl phthalate.crude malice
+anhydride is sent further for purification , dibutyl phthalate is recycled back to the
+absorption tower with makeup stream to balance losses .
+Peng-Robinson thermodynamics model is employed in this flowsheet.
+the following points where considered while creating the flowsheet :
+1. pure air was considered using a mixture of oxygen and nitrogen in
+stochiometric proportions .
+2. all side reactions were ignored .
+3. the reactor operation used is based upon conversion of benzene and the outlet
+temperature of reactor.
+4. the liquid outlet stream of conversion reactor is closed as no product is in liquid
+state at such high temperature only vapour is present .
+5. the absorber is simulated using compound separator specifying bottom stream.
+6. the fired heater is considered to be 100% efficient to make calculations under
+tolerance limit.
+7. dibutyl phthalate is a user defined compound added from online library to the
+simulation.
+8. the data given in Turton ed al, 2013 was used as a basis to create the flowsheet
+and confirm the results from DWSIM.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>55</Index>
+		<Title>Design of an industrial 1,4- Dioxane Dehydration process with light feed impurity</Title>
+		<Description>A. Process Flow Sheet Description
+The process involves a feed stream (S-1) comprising of aqueous 1,4-Dioxane and water with small amounts of light impurity Tri-Ethylamine (TEA) fed to a pre-concentrator column in order to remove the impure TEA. The bottom product of DC-1 (S-3) is recycled along with the distillate stream (S-7) of DC-3 and feed to DC-2. Thus, with a low-pressure column (DC-2) operating at 1 atm and a high-pressure column operating at 8 atm (DC-3), 1,4-Dioxane and water can be separated using a two column sequence. Streams S-6 and S-8 are rich in water and 1,4 -Dioxane appropriately.
+B. Results and Discussion
+A rigorous column (DC-1) was simulated for the separation of Tri-Ethylamine with number of stages set to 7 and a bottoms rate of 1177.16 kg/h . Two rigorous columns (DC-2 and DC-3) were implemented to separate 1,4-Dioxane and water. The number of stages and product mass flowrates were provided as specifications. The results are tabulated below
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>56</Index>
+		<Title>PRODUCTION OF ETHYLENE GLYCOL</Title>
+		<Description>BACKGROUND Ethylene glycol is a chemical commonly used in many commercial and industrial applications including antifreeze and coolant. Ethylene glycol helps keep your car’s engine from freezing in the winter and acts as a coolant to reduce overheating in the summer. Ethylene glycol also is used as a raw material in the production of a wide range of products including polyester fibers for clothes, upholstery, carpet and pillows. The global production of Ethylene glycol is 7 x 106 tons/annum.Ethylene glycol can be obtained by Ethylene carbonate process, union carbide syngas process and many other processes but the most important process is hydrolysis of Ethylene oxide. DESCRIPTION OF FLOWSHEET
+Each mole of Ethylene oxide reacts with a mole of water to give rise to one of Ethylene Glycol. But the product Ethylene Glycol formed reacts with Ethylene Oxide to give rise to Diethyleneglycol. The reactions are as follows.
+𝐶2𝐻4𝑂+ 𝐻2𝑂 −→ 𝐶2𝐻6𝑂2 𝐶2𝐻4𝑂+ 𝐶2𝐻6𝑂2−→ 𝐶4𝐻10𝑂3
+In order to increase the yield of Ethylene Glycol 20 moles of water is fed to the reactor for each mole of Ethylene glycol entering. However, a maximum of around 90 % yield of Ethylene glycol is only obtained by non-catalytic reaction/ process. The Ethylene oxide limiting reactant and undergoes complete conversion in plug-flow reactor.
+Therefore the reaction mixture consists large amounts of water which is mostly removed by employing multiple effect feed forward evaporators. The pressure decreases in the forward direction . The concentrated solution contains % of Glycols and rest water. Therefore water is mostly removed in multi-stage plate distillation column. The Ethylene glycol is finally removed in the next distillation which is also a multi-stage plate column.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>57</Index>
+		<Title>Pressure Swing Distillation of Acetonitrile-Water Mixture</Title>
+		<Description>Acetonitrile forms minimum boiling azeotrope with water at 101.325 kPa at 350.15 K. An aqueous stream containing 50% by mass is to be separated by pressure swing distillation Technique.
+		Description
+In column-I, Fresh feed with recycle stream (i.e., distillate from column-II) ACN is distilled out at 101.325 kPa in the form of azeotrope while bottom product is water with negligible impurity of ACN. Azeotrope from column-I top is fed to column-II which is operated at 3 atm. Top product from column-II is again an azeotrope. The bottom product from column-II is 99% Acetonitrile (ACN).
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>58</Index>
+		<Title>Methyl Methacrylate Separation Process</Title>
+		<Description>Azeotropes are close boiling mixtures which are difficult to separate through simple
+distillation. To separate azeotropic mixtures another light component is added to mixture
+through which a binary minimum boiling azeotrope can be formed. Bottom is generally
+obtained as high purity product and top product is near to heterogeneous azeotrope. This top
+product can be sent to decanter for separation in aqueous and organic streams. Organic phase
+is sent to back to column whereas aqueous stream is processed as per requirement
+Description:
+Wu et al [1] devised a two-column design with a bottom decanter. The reproduced flowsheet
+is shown in Figure 1. The bottom composition of the distillation column was designed to be
+near MMA/H2O azeotrope so that a decanter can be designed to obtain aqueous and organic
+streams. The system is shown which contains two column and one recyle stream.
+The top product from column-I is 95.3% Methanol and bottom product is mixed with recycle
+from column-II and sent to decanter at 323.15 K. The bottom product from decanter is 99%
+water and top product is again sent to column for further separation. The bottom product of
+column-II is 99% MMA and top product is recycled and back.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>59</Index>
+		<Title>Neat Operation for Separating Methanol-Water</Title>
+		<Description>Neat operation means the condenser duty required in the one column is exactly equal to the reboiler duty in the next column. Here the system used is Methanol-Water. Methnol is more volatile so it is obtained as Distillate in both the units with purity around 99% . The water is obtained from the bottoms in each column which is around 99% pure.
+The feed composition is 60 mol % Methanol and 40mol % Water flowing at a rate of 1 kmol/s. The feed is split in the ratio of 0.5086 and 0.4914 kmol/s so that the column operates “neat”.
+The low pressure column-I operates at 0.6 atm and column-II operates at 5 atm. Reflux ratio in column-II is 2 so that heat duty of condenser-I and reboiler-II are same.
+		The component purity of each stream is around 99 %.As condenser duty in Column-I is same as Reboiler Duty in Column-II that is 33188 kW. By this operation total capital investment and energy consumption is reduced.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>60</Index>
+		<Title>PREPARATION OF ACETIC ACID BY OXIDATION OF ACETALDEHYDE</Title>
+		<Description>Acetic acid is the second, simplest carboxylic acid (after formic acid). It consists of a methyl group attached to a carboxyl group. It is an important chemical reagent and industrial chemical, used primarily in the production of cellulose acetate for photographic film, polyvinyl acetate for wood glue, and synthetic fibres and fabrics. In households diluted acetic acid is often used in de-scaling agents.
+Description of the flowsheet:
+This flowsheet is used for the production of acetic acid by oxidation of acetaldehyde, consists of a mixer to mix the recycle stream with the feed streams, conversion reactor, the cooler to cool the products, complex column to separate the product (acetic acid) and unreacted feed, followed by absorption column to separate Nitrogen from unreacted feed using water as an absorbent. Complex column is used to separate water from recycle stream.
+Reaction:
+CH3CHO + 0.5O2 ---> CH3COOH Description:
+The products from the reactor are then sent to the cooler unit where the products are cooled. Then acetic acid is separated from unreacted acetaldehyde and air component using complex column based on the volatility of the compounds. The product acetic acid is
+obtained from bottom stream of the complex column. The unreacted stream obtained from complex column is sent to a heater to vaporize for better absorption of acetaldehyde in absorption column to separate nitrogen gas from the unreacted part to minimise the nitrogen content in recycle stream. Water is used as an absorbent which is separated using a complex column from unreacted acetaldehyde and recycle back and some make-up water is added with recycle stream and cooled using a cooler for better absorption of acetaldehyde. Top product form complex column is heated to make the top effluent at room temperature. The stream, contained acetaldehyde and oxygen, is sent to a mixer through a recycle block to increase the overall yield.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>61</Index>
+		<Title>Extractive Distillation for Dehydration of Tetrahydrofuran</Title>
+		<Description>Extractive distillation technique for the dehydration of Tetrahydrofuran is investigated with Ethylene glycol as an entrainer. Two columns are used, Top product from the first column is desired product that is Tetrahydrofuran and other column is for entrainer recovery. The entrainer from the bottom of second column is recycled back with the feed stream with makeup.
+Introduction:
+Tetrahydrofuran is an important organic raw material. The demand for high purity Tetrahydrofuran is continuously increasing as it can be used as reaction solvent, adhesives etc. but it is commercially beneficial only when available in high purity i.e. 99.9% wt. basis. At atmospheric pressure Tetrahydrofuran gets easily dissolved in water and forms a minimum-boiling homogeneous azeotrope. Therefore it is not possible to separate Tetrahydrofuran-Water solution completely by Simple Distillation.
+There are various methods available for separating Tetrahydrofuran-Water Azeotropic mixture like pressure swing distillation, pervaporation, and extractive distillation. Among these techniques the most commonly used method for Tetrahydrofuran dehydration is Extractive Distillation in which the addition of a separating agent is applied to increase the relative volatility of light and heavy components.
+Flowsheet Description:
+Fan et al [1] devised a two-column design with an entrainer. The reproduced flowsheet is shown in Figure 1. Among the various entrainer available like DMSO, DMF here ethylene glycol is used as it is easily and cheaply available. In Figure-I column-I is extractive column and column-II is for recovery of entrainer ethylene glycol. The azeotropic mixture of Tetrahydrofuran-Water along with entrainer is fed to column-I the top product of column-I is our desired product i.e. 99.9 wt. % Tetrahydrofuran. The bottom product is fed to column-II for entrainer recovery where ethylene glycol is separated from water and separated ethylene glycol is then obtained from the bottom with 99.9 wt. % purity. This entrainer is again recycled to column-I after cooling and adding make-up stream of entrainer to account for the loss of entrainer in distillates of column-I and column-II
+Fresh feed flow rate is kept at 3000 kg/hr containing 0.9 wt. % Tetrahydrofuran and rest water at a temperature of 320 K. The pressure of both the columns are maintained at 1.1 atm. Distillate from column-I is our desired product i.e. Tetrahydrofuran with 99.9 wt. % purity.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>62</Index>
+		<Title>Production of Ethanolamine, Diethanolamine, Triethanolamine by ethylene oxide and ammonia</Title>
+		<Description>Ethylene oxide and aqueous ammonia are fed to stirred tank reactor which can be operated under a wide range of operation depending on the product distribution. The ratio of the products can be controlled by changing the stoichiometry of the reactant. All these product is having a wide range of application in chemical industries. These are used in detergent manufacturing, in gas purification and used as an intermediate in manufacture of some chemical products.
+		This flowsheet is used for the production of derivatives of alcohol amine, consists of a mixer to mix the recycle stream with the feed streams, compressor and pump to pressurize the feed stream. It consists a continuous stirred tank reactor and coolers for decrease the temperature and a flash tower to separate ammonia from product stream. And a water stripper to separate water. A series of complex column to separate main products from each other. A stream splitter is used to remove a purge stream to avoid the accumulation of water and a recycle block to recycle back unconverted ammonia and ethylene oxide.
+Description: Aqueous ammonia is pumped with recycle stream and ethylene oxide is compressed in a compressor and both are mixed in a mixer and then send to a continuous stirred tank reactor. Product stream from reactor is cooled and flashed in a flash tower to remove unconverted ammonia with product stream. The effluent is send to a water stripper to separate water. Product stream is passed through a series of complex column to separate main products. Monoethanola- mine is obtained from top of first complex column and bottom is sent to second complex column. Diethanolamine is obtained as a top effluent and triethanolamine is obtained as bottom stream. If it contains further impurities then the bottom of second column is send to third column to separate triethanolamine as top effluent and heavy end at bottom. Stream from water stripper is sent through stream splitter to remove some water as in purge stream. And another stream is mixed with ammonia recycle from flash tower and recycled back using a recycle block.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>63</Index>
+		<Title>FOR PRODUCTION OF ACETONE VIA DEHYDRogenaTION OF ISOPROPANOL</Title>
+		<Description>Acetone is a colourless , volatile, flammable liquid , and is
+the
+simplest and smallest ketone
+2.
+It is miscible with water and serves as an important solvent in
+its own right, typically for cleaning purposes in laboratories
+3.
+Acetone is produced and disposed of in the human body
+through normal metabolic processes
+4.
+It is normally present in blood and urine. People
+with diabetes produce it in larger amounts.
+5.
+Reproductive toxicity tests show that it has low potential to
+cause reproductive problems
+DESCRIPTION :
+The production of acetone involves the dehydrogenation of IPA
+in a high temperature gas phase reactor
+(CH3)2CHOH--> CH3)2CO + H2
+Turtonet al6 assumed the reaction to be irreversible and
+specify that the per pass conversion of IPA is 90% to prevent side
+reactions. The reaction occurs in the vapour phase in the
+presence of a solid catalyst
+			Using
+the reactor size and kinetics given in Turton et al as shown in
+Table 1 gave the 90% conversion specified by the authors if the presence of the solid
+catalyst was neglected. Of course, the catalyst is present, so a bigger reactor would have
+to be used to give the same conversion.
+The
+kinetics used by Turton et al are also unrealistic in that the
+reaction cannot be irreversible. If it were irreversible, we could operate at high pressure,
+which would raise the concentration of IPA and drive the reaction toward the products.
+But LeChatier’s principle tells us that raising pressure should drive the reaction toward the
+reactant since there are two moles of product generated from one mole of reactant. In an
+attempt to modify the kinetics so as to capture these realistic effects, an RGIBBS reactor
+was run in Aspen Plus to find the effect of pressure on conversion. At 623 K (the
+temperature in the Turton flowsheet), the RGIBBS equilibrium conversion is 97.1% at 2 atm.
+This should be compared with the 90% conversion in the Turton design. As pressures are
+raised to 5, 10, and 15 atm , the equilibrium conversions decrease to 93.3, 87.8, and 83.2%.
+Clearly the effect of pressure must be considered.
+The
+kinetics were modified to assume a reversible reaction :
+(CH3)2CHOH --> (CH3)2CO + H2
+The activation energy of the forward reaction used is the value given in Turton et al (72
+380 kJ/ kmol ). The activation energy of the reverse reaction was calculated using the heat
+of reaction (+62 900 kJ/ kmol
+λ= EF ER
+			An empirical trial
+and error procedure was employed to
+find the unknown values of the pre exponential factors kF and kR
+that satisfied two conditions. First, they should give approximately
+the same pressure dependence of conversion in a large tubular
+reactor as predicted by RGIBBS. Second, they should give 90%
+conversion when used in the Turton tubular reactor (including the
+presence of catalyst). Table 1 shows the parameters used in the
+rest of this study. To be consistent with the assumption made by
+Turton , the conversion in the reactor is held at 90% as other design
+parameters are changed.
+
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>64</Index>
+		<Title>PRODUCTION OF DIETHYL ETHER FROM ETHANOL BY DEHRATION</Title>
+		<Description>Diethyl ether (C2H5)2O is an organic compound which is also known as
+ethyl ether, ether or ethoxyethane. It is a colourless, highly volatile flammable
+liquid with a characteristic odour. It is commonly used as a solvent and as a
+general anesthetic. It has narcotic properties so it has been known to cause
+temporary psychological addiction, sometimes referred to as etheromania.
+Diethyl ether may have been created by either JabiribnHayyan in the
+8th century or RaymundusLullus in 1275, as there is no any evidence of this. It
+was first synthesized in 1540 by ValeriusCordus, who called it “sweet oil of
+vitriol” (oleum dulcevitrioli) - the name reflects the fact that it is obtained by
+distilling a mixture of ethanol and sulfuric acid (then known as oil of vitriol). At
+about the same time, Paracelsus discovered the ether’s analgesic properties
+in chickens. The ether name comes in 1730 by August Sigmund Frobenius.
+		The flowsheet for the Diethyl ether production consist of a mixer to mix the recycle
+stream (ethanol) and Ethanol feed stream,Conversion reactor and two Distillation
+columns .One distillation column is to purify diethyl ether and later is for seperating
+water and recycle stream.About 50% conversion is obatined in the conversion reactor
+with reaction as follows
+2 C2H5OH > (C2H5)2O + H2O
+The product from the mixer is sent to the coversion reactor ,the product from the reactor
+is sent to the Distillation column 1 to seperate pure Diethyl ether and mixed bottom which
+is a feed to the Distillation column 2 where recycle ethanol stream and water are being
+seperated. All the streams are at Atmospheric pressure.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>65</Index>
+		<Title>Production of Ethylene Oxide by Air (Oxygen) oxidation process</Title>
+		<Description>
+			A. Background
+Ethylene Oxide production plant is downstream plant of Gas Cracker. Ethylene Oxide is widely used in production of Ethylene Glycol. In US and also in India, Ethylene Oxide has principle outlet in production of Ethylene Glycol. It also used as other derivatives like glycol polyesters, non-ionic detergents and ethanol-amines. This project relates actual plant production of ethylene oxide using ethylene and oxygen.
+			B. Description of Flowsheet
+Ethylene from Gas Cracker plant and Oxygen from Air Separation plant are come to Ethylene Oxide (EO) plant. Then it compressed to 21.7 bar (2170 kPa) in compressor for achieving reaction pressure. Then oxygen goes to oxygen mixing station, where oxygen is carefully supplied. After that, mixture goes to Shell and Tube Reactor, where partial oxidation of Ethylene takes place in presence of silver (Alumina based) catalyst. Only 12 % of Ethylene converted to EO. Some CO2 also produced during reaction. After reaction, EO, CO2 and unreacted feed are going to absorption column. In absorption column, most of the EO is absorbed in water and lean EO stream goes to heat-exchanger. Lean EO stream consist mainly Ethylene, Oxygen and CO2. It will exchange heat with reactor outlet stream. After exchanging heat, this stream will go to reactor feed stream via recycle. Absorption column bottom goes to disorber, where some amount of water removed. The top of column will go to further purification in stripper and distillation column. After purification, pure Ethylene Oxide get it from top and it send to EO storage tank.
+		C. Result
+The capacity of production of Ethylene Oxide is 79.95 ton/day. The reaction temperature is around 250-300 0C and pressure is 21.7 bar. 12 % conversion of Ethylene was taken as a real plant information. Side reaction as formation of CO2 also produced in very small amount was taken. Reactor outlet was sent to heat exchanger and then to absorption column. Lean gases are found at the top. They are recycled back to main feed stream. Rich water + gases are sent to distillation column. Rigorous column was taken for distillation using shortcut distillation column data. In both column, Ethylene Oxide taken as light key and water taken as heavy key. Two distillation columns required to remove almost all water. As per data of shortcut column, reflux ratio of 1st column taken 16 (above minimum), 35 stages (as suggested) and for 2nd column reflux ratio taken 2.5 (above minimum), 5 stages (as suggested). It was then simulated and 79.95 ton/day (0.9254 kg/s) obtained.
+			D. Conclusion and Recommendation
+DWSIM provides good platform for simulation. With the knowledge of DWSIM, one can simulate plant. That data can further be use to design equipment as in chemical engineering, process equipment design. The stripper column not work good in DWSIM. Using script, future work can be done. Purging is also not available. Stream splitter is also not very much effective. If in future, purging is available, then flowsheet will be more effective. Also, in rigorous column, FUG, Mac-Cab-Thiele, etc popular methods not available. It might be available in future. Using that, one can understand better.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>66</Index>
+		<Title>Steady State Simulation of Separation Column for Propylene-Propane Mixture</Title>
+		<Description>Propylene is one of the most significant intermediate petrochemical products. The blend of propylene, propane, C-5 fraction, hexane, water, hydrogen, N2 and some other constituents from a petrochemical plant are the raw material. Due to necessity of a high purity feed stream propylene has to be separated from propane and the other impurities in the separation column. The simulation of the propane-propylene separation column was carried out using DWSIM simulation engine, to determine the effect of the main operating parameters on the product composition. The similarities in physical and chemical properties between the molecules lead to separation of propylene from mixture being problematic. Due to the high product purity and the low relative volatility, the number of stages required generally for this separation is very high. The process requires high capital cost and energy consumption. To maximize profit, as energy prices rise, energy efficiency, together with optimizing product quality and maximizing high–value product yields have become more important. Thus, modification of propane/propylene separation process can highly affect the economics of the whole production system.
+		The Soave—Redlich—Kwong which is an equation of state thermodynamic property model is selected for the simulation.
+The ternary feed mixture of Propane, Propylene and n-Pentane mixture is fed into the mixer at a molar flow rate of 45.2385, 79.012 and 1.2599 mol/s respectively, temperature of 310.92 K, and pressure of 1999 kPa. The pump is employed to increase the pressure to 2137kPa. The feed then enters at 70th stage of stripping column (Reboiled absorber) which has a total of 100 stages and maintained at top pressure of 1931 kPa and bottom pressure of 2068 kPa with a pressure drop of 0.2 psia. Due to the high product purity and the low relative volatility, the number of stages required for separation is very high.
+3
+The distillate has a mole fraction of 0.5295 Propylene and 0.4704 Propane which is further sent to the Refluxed Absorber of 120 stages. 0.9900 mole fraction of Propylene is distilled out. Also the bottom stream with a mole fraction of 0.5039 Propylene and 0.4960 Propane is recycled back to the Reboiled Absorber. Thus Propylene is separated from the feed mixture and 99% product purity is obtained.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>67</Index>
+		<Title>Cooling of Benzene and Heating of Methane by Circulation of water</Title>
+		<Description>Flowsheet Description:
+Benzene and Methane which are cooled and heated are sent into the heater and cooler.
+Water which is medium to exchange heat from benzene and methane is sent to the heater and increases its temperature by taking heat from the Benzene and enters in the Mixer and then in the separator which separates vapour/liquid water into saturated vapour and liquid.
+Saturated vapour enters into the cooler and turns into saturated liquid and recycled to the mixer.
+Saturated liquid from the separator is also recycled in to the mixer.
+Heat released in the mixer is used to increase the temperature of the Methane.
+Unit Operations :
+1. Heater
+2. Cooler
+3. Separator
+4. Material streams
+5. Energy streams
+6. Mixer</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>68</Index>
+		<Title>Vinyl Chloride Production</Title>
+		<Description>Introduction
+Vinyl chloride is an organochloride with the formula H2C=CHCl that is also called vinyl chloride monomer (VCM) or chloroethene. This colorless compound is an important industrial chemical chiefly used to produce the polymer polyvinyl chloride (PVC).
+		Process Description:
+Vinyl chloride is produced in a two step process from ethylene.
+• Ethylene first reacts with Chlorine to produce Ethylene dichloride.
+• The purified Ethylene dichloride undergoes selective cracking to form vinyl chloride.
+Direct chlorination
+EDC (ethylene dichloride) is prepared by reacting ethylene and chlorine In the presence of iron(III) chloride as a catalyst, these compounds react exothermically:
+CH2=CH2 + Cl2 → ClCH2CH2Cl
+This process results in high purity EDC and high yields. Dissolved catalyst and moisture must be removed before EDC enters the vinyl chloride production process
+• C2H4 and Cl2 are mixed and sent to the Direct Chlorination reactor.
+• The conversion in the Direct Chlorination Reactor is assumed to be 100%, while that in pyrolysis reactor is only 60%.
+• Further both the columns are assumed to carry out perfect separations, with overhead and bottoms temperatures computed based on dew- and bubble-point temperatures, respectively.
+• The products from the pyrolysis furnace are cooled and sent to HCL column where HCL is removed as overhead product and the bottoms, which include Vinyl Chloride and 1,2-dichloroethane are sent to the second distillation column.
+• The vapour product from the VC column is Vinyl Chloride and the bottoms are 1,2-dichloroethane and is sent for recycle to increase the production.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>69</Index>
+		<Title>Design and Control of Distillation Processes for Methanol – Chloroform</Title>
+		<Description>Methanol is the simplest alcohol, being only a methyl group linked to a hydroxyl group. It is a
+light, volatile, colorless, flammable liquid with a distinctive odor very similar to that of ethanol
+(drinking alcohol). However, unlike ethanol, methanol is highly toxic and unfit for consumption.
+At room temperature, it is a polar liquid. It is used as an antifreeze, solvent, fuel, and as a
+denaturant for ethanol. It is also used for producing biodiesel by transesterification reaction.
+Methanol is used primarily as a feedstock for the manufacture of chemicals, and as a fuel for
+specialized vehicles. Chloroform, or trichloromethane, is an organic compound with formula
+CHCl3. It is a colorless, sweet-smelling, dense liquid that is produced on a large scale as a
+precursor to PTFE. It is also a precursor to various refrigerants. In terms of scale, the most
+important reaction of chloroform is with hydrogen fluoride to give monochlorodifluoromethane
+(CFC-22), a precursor in the production of polytetrafluoroethylene. It is also used as an
+anesthetic, solvent and a reagent in several other chemical processes. The binary mixture of
+methanol–chloroform exhibits a minimum-boiling azeotrope with ∼34 mol% methanol at 327 K
+under atmospheric pressure. Therefore, we need to carry out Extractive Distillation to separate
+both methanol and chloroform. However, now a day’s a new method known as Pressure Swing
+Distillation has come into picture and can be used. It is also found to be more economical than
+the Extractive Distillation method as no extra solvent is required to achieve the separation.
+Therefore, in this work Pressure Swing Distillation for the separation of Methanol and
+Chloroform has been carried out.
+Process Description:
+In this process first the feed stream containing 0.5 mole fraction Methanol and 0.5 mole fraction
+Chloroform is sent to a distillation column which has 24 stages. The feed is send to stage
+number 9 whereas the recycled feed is sent to stage number 18. The flow rate of the feed is
+around 100 kmol/hr., 300K and the recycle ratio of the tower is 0.55. The first distillation column
+produces bottom with 0.995 mole fraction methanol. The distillates of the first column are sent to
+a second distillation column. The second distillation column has a reflux ratio of 0.95 and it
+produces distillates which are recycled back to the first distillation column and the bottom
+product has a composition of 0.995 mole fraction Chloroform. The first distillation column is a
+low pressure distillation column maintained at a pressure of 1 atm whereas the second
+distillation column is a high pressure distillation column maintained at a pressure of 10 atm.
+		</Description>
+		<PythonCode/>
+	</Sample>
+	<Sample>
+		<Index>70</Index>
+		<Title>Hydroalkylation of Toluene to Benzene Using Hydrogen</Title>
+		<Description>Hydroalkylation is a chemical reaction that often involves reacting an aromatic hydrocarbon, such as toluene in the presence of hydrogen gas to form a simple aromatic hydrocarbon devoid of functional groups. This chemical process usually occurs at high temperature, at high pressure, or in the presence of a catalyst.
+Hydroalkylation of toluene is synergized by poly-isopropyl benzene which is obtained in the process of manufacture of cumene as distillate. The process is to obtain benzene from dealkylation in the presence of H2. In the process, the pure benzene of 96.43% is obtained while about 96.7% of Toluene is recycled back to the feed stream. Various hydroalkylation processes can be used, in which hydrogen and alkyl aromatic hydrocarbons are contacted in a reaction zone at high temperature.
+Key words: Hydroalkylation-Toluene-Benzene-DWISM-Simulation
+PROCESS DESCRIPTION
+The property package used for the complete flow Diagram is SRK Model.
+Hydrogen and Toluene are fed in their respective feed streams and are mixed in the mixer (MIX-012) and the mixture feed is obtained from the material stream (MSTR-010). The mixture product passes through the heater (HEAT-004) where calculations are based on outlet of 873.15K and efficiency is 100%.
+The hot mixture from heater is fed to the conversion reactor RC-007. In the reactor, Toluene is reacted with hydrogen to produce Benzene and Methane.
+Toluene + HydrogenBenzene + Methane
+Reactor operates at 600-650˚C and 35-40 atms, product stream from the reactor is passed through a cooler (COOL-011) of outlet temperature of 353.15K with efficiency of 100%. The products are then separated in the separator vessel where vapour stream and light liquid streams are separated to MSTR-016 and MSTR-015 respectively. The vapour is recycled back to the mixture while the light liquid stream is passed through the heater HEAT-019, with the outlet temperature of 375.15. The product is then fed to the distillation column (DC-028).
+From the distillation column, Pure Benzene is obtained as a distillate while Toluene is recycled back to Toluene mixture. The Toluene recycled and Toluene fed are pumped to the mixture MIX012.
+		</Description>
 		<PythonCode/>
 	</Sample>
 </DataSet>
