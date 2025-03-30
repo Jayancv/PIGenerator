@@ -3,6 +3,9 @@ You aim to save the DWSIM layout as PDF file
 
 Add the above code in given sample 'Add DWSIM code here -- Add task specific code here '
 Also change file names to relevant task names. 'taskName' 
+
+NOTE : Final output should contain all the code with correction of previous code (Full code). 
+
 ## Answer
 
 ### Task 1

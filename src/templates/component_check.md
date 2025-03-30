@@ -7,3 +7,5 @@ Generated code:
 
 Please help me identify is there any missing components. If any component missing then rewrite a new code with all the components.
 Otherwise, send output as 'Correct'
+
+NOTE : Final output should contain all the code with correction of previous code(Full code). 

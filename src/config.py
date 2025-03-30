@@ -26,7 +26,7 @@ class Config:
 
         OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
         DEEPSEEK_API_KEY = os.getenv('DEEPSEEK_API_KEY')
-        print (DEEPSEEK_API_KEY)
+
         if self.args.model in ["gpt-3.5-turbo", "gpt-4"]:
             os.environ["OPENAI_API_KEY"] = self.args.api_key if self.args.api_key else OPENAI_API_KEY
             self.args.api_key = os.getenv('OPENAI_API_KEY')
