@@ -3,6 +3,7 @@ import xml.etree.ElementTree as ET
 import faiss
 import numpy as np
 from rank_bm25 import BM25Okapi
+import re
 
 # === CONFIGURATION ===
 EMBEDDING_MODEL = 'nomic-embed-text'
@@ -57,6 +58,7 @@ for i, chunk in enumerate(dataset):
     embeddings.append(emd)
     print(f'Added chunk {i + 1}/{len(dataset)} to the database')
 
+embeddings = np.array(embeddings)
 dim = embeddings.shape[1]
 faiss_index = faiss.IndexFlatL2(dim)
 faiss_index.add(embeddings)
@@ -85,15 +87,38 @@ def vector_search(query, top_n=3):
     _, indices = faiss_index.search(query_embedding, top_n)
     return [DESCRIPTIONS[i] for i in indices[0]]
 
+def extract_indices(text):
+    """
+    Extracts index numbers from a given text containing '--Index <number> DESCRIPTION--' patterns.
+
+    :param text: The input string containing index patterns.
+    :return: A list of extracted index numbers as integers.
+    """
+    pattern = r"--Index (\d+)"
+    indices = re.findall(pattern, text)
+    if (len(indices) == 0):
+        indices = re.findall(r"\d+", text)  # Find all numeric values
+    if len(indices) == 0:
+        return []
+    return list(map(int, indices))  # Convert to integers
 
 def rerank_results(query, results):
-    prompt = f"Query: {query}\n\nRank the most relevant descriptions:\n"
+    prompt = (f"Query: {query}\n\nRank the most relevant descriptions for this query. "
+              f"Please provide only description index order from most relevant to least relevant as output without "
+              f"any other text( like 3,2,4):\n\n")
     for i, result in enumerate(results):
-        prompt += f"{i + 1}. {result}\n"
+        prompt += f"\n--Index {result}  DESCRIPTION-- \n{DESCRIPTIONS[result]}\n --END DESCRIPTION-- \n"
 
     response = ollama.chat(model=LANGUAGE_MODEL, messages=[{"role": "user", "content": prompt}])
-    return response["message"]["content"]
+    index = extract_indices(response["message"]["content"])
 
+    if len(index)==0:
+        return None
+    # Check if all input result indices are present in the extracted indices
+    if not all(result in index for result in results):
+        return None
+
+    return index
 
 def retrieve(query, top_n=3):
     query_embedding = ollama.embed(model=EMBEDDING_MODEL, input=query)['embeddings'][0]
@@ -118,17 +143,20 @@ def hybrid_retrieve(query, top_n=3):
     similarities = []
     for i, (chunk, embedding) in enumerate(VECTOR_DB):
         similarity = cosine_similarity(query_embedding, embedding)
-        similarities.append((i, similarity))
+        similarities.append((i,chunk, similarity))
 
     # Combine BM25 and embedding scores
-    combined_scores = [(i, bm25_scores[i] + similarities[i][1]) for i in range(len(bm25_scores))]
+    combined_scores = [(i, bm25_scores[i] + similarities[i][2]) for i in range(len(bm25_scores))]
     combined_scores.sort(key=lambda x: x[1], reverse=True)
 
     # Retrieve top N results
     top_indices = [index for index, score in combined_scores[:top_n]]
     best_match = rerank_results(query, top_indices)
-
-    return best_match
+    # Handle the case when rerank_results returns None (no valid indices provided)
+    if best_match is None:
+        return [(index, chunk, score) for index, chunk, score in similarities if index in top_indices]
+    else:
+        return [(index, chunk, score) for index, chunk, score in similarities if index in best_match]
 
 
 def get_retrieved_details1(query,is_direct=True):
