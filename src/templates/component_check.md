@@ -1,4 +1,5 @@
 I got a DWSIM code bellow and need to validate is it contains all the relevant component for given use case. 
+Please access the details in the DWSIM API documentation website: https://dwsim.org/api_help/html/G_DWSIM.htm 
 Use case : 
 [USECASE]
 
