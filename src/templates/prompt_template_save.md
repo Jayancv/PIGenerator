@@ -1,14 +1,10 @@
-You aim to save the DWSIM layout as PDF file 
+You aim to save the DWSIM layout as PNG image file 
 [code]
 
-Add the above code in given sample 'Add DWSIM code here -- Add task specific code here '
-Also change file names to relevant task names. 'taskName' 
+Add the above code in given sample 'Add DWSIM code here -- Add task specific code here' comment.  No placeholders 
+inside the python code. Also change file name of image to relevant task names.
 
-NOTE : Final output should contain all the code with correction of previous code (Full code). 
-
-## Answer
-
-### Task 1
+NOTE : Final output should contain all the code with correction of previous code (Full code).
 
 ```python
 import clr
@@ -37,13 +33,11 @@ from System import String, Environment
 
 # Add DWSIM code here -- Add task specific code here 
 
-
-
 # Save the flowsheet to a file
 fileNameToSave = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "taskName.dwxmz")
 interf.SaveFlowsheet(sim, fileNameToSave, True)
 
-# Export PFD image
+# Export image
 clr.AddReference(dwsimpath + "SkiaSharp.dll")
 clr.AddReference("System.Drawing")
 
@@ -52,7 +46,7 @@ from System.IO import MemoryStream
 from System.Drawing import Image
 from System.Drawing.Imaging import ImageFormat
 
-# Render PFD to image
+# Render image
 PFDSurface = sim.GetSurface()
 bmp = SKBitmap(1024, 768)
 canvas = SKCanvas(bmp)
@@ -67,25 +61,11 @@ str.Dispose()
 canvas.Dispose()
 bmp.Dispose()
 
-# Show the PFD image
-from PIL import Image as PILImage
-im = PILImage.open(imgPath)
-im.show()
 
 ```
 
- 
-Save the diagram as PDF 
+Save the diagram as PNG image file. 
 
-Please make sure your Python code is compatible with DWSIM. 
-Please give the runnable code without any placeholders based one some configs in above code.
-
-
-## Question
-
-Design [TASK].
-
-
-## Answer
-
+Please make sure your Python code is compatible with DWSIM. No placeholders 
+inside the python code. Please give the runnable code without any placeholders based one some configs in above code.
 

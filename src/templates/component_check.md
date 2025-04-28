@@ -1,4 +1,4 @@
-I got a DWSIM code bellow and need to validate is it contains all the relevant component for given usecase. 
+I got a DWSIM code bellow and need to validate is it contains all the relevant component for given use case. 
 Use case : 
 [USECASE]
 
