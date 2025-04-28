@@ -105,7 +105,12 @@ class LLMClient:
         Returns:
             int: Total token count.
         """
-        tokenizer = tiktoken.encoding_for_model(model)
+        try:
+            tokenizer = tiktoken.encoding_for_model(model)
+        except KeyError:
+            # Provide a default tokenizer for models that are not automatically mapped
+            tokenizer = tiktoken.get_encoding("cl100k_base")
+
         total_tokens = sum(len(tokenizer.encode(msg["content"])) for msg in messages)
         return total_tokens
 

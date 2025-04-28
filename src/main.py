@@ -52,6 +52,7 @@ def work_flow(user_input, llm_client):
             context = '\n'.join(
                 f"Context {i + 1} \n {item['Description']} \n Sample python code \n {item['PythonCode']}" for i, item in
                 enumerate(retrieved_details))
+            print(context)
             if len(context) > MAX_TOKENS:
                 total_length = sum(len(item['PythonCode']) for item in retrieved_details)
                 print("Total length of PythonCodes:", total_length)
@@ -66,11 +67,12 @@ def work_flow(user_input, llm_client):
                     context = f"Context 1 \n {retrieved_details[0]['Description']} \n Sample python code \n {retrieved_details[0]['PythonCode']}"
             if len(context) > MAX_TOKENS:
                 print("Context length exceeds the maximum limit after summarising the context. length = ", len(context))
-                context = ""
+                # context = ""
         else:
             context = "No relevant context found in the dataset."
     else:
         context = "No RAG retrieval used."
+    print("Context   = ", context)
 
 
     task_id = datetime.now().strftime('%Y%m%d%H%M%S%f')
@@ -182,7 +184,7 @@ def work_flow(user_input, llm_client):
 
 
 def main():
-    with open('problem3.json', 'r', encoding='utf-8') as f:
+    with open('problem5.json', 'r', encoding='utf-8') as f:
         data = json.load(f)
 
     df = pd.DataFrame(data, index=[0])

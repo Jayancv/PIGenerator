@@ -335,13 +335,10 @@ bmp.Dispose()
 		<Title>Solid Carbon Combustion</Title>
 		<Description>Combustion, or burning, is a high-temperature exothermic redox chemical reaction between a fuel (the reduc-
 tant) and an oxidant, usually atmospheric oxygen, that produces oxidized, often gaseous products, in a mixture
-termed as smoke. Combustion in a re produces a
-ame, and the heat produced can make combustion self-
-sustaining. Combustion is often a complicated sequence of elementary radical reactions. Solid fuels, such as
+termed as smoke. Combustion in a re produces a flame, and the heat produced can make combustion self-sustaining. Combustion is often a complicated sequence of elementary radical reactions. Solid fuels, such as
 wood and coal, rst undergo endothermic pyrolysis to produce gaseous fuels whose combustion then supplies
 the heat required to produce more of them. Combustion is often hot enough that incandescent light in the form
-of either glowing or a
-ame is produced. In this process, solid carbon mixed with air at 298.15 K and 101325
+of either glowing or a flame is produced. In this process, solid carbon mixed with air at 298.15 K and 101325
 Pa is sent to a conversion reactor. Reaction takes place between carbon and oxygen to form carbon dioxide
 where 100% conversion is considered for carbon.		</Description>
 		<PythonCode/>

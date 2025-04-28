@@ -16,6 +16,7 @@ DESCRIPTIONS = []
 dataset = []
 tree = ET.parse('rag_system/resources/dataset.xml')
 root = tree.getroot()
+skip_task = 5  # for evaluation example set need to exclude from the RAG system
 
 for sample in root.findall('Sample'):
     index = sample.find('Index').text
@@ -33,6 +34,11 @@ for sample in root.findall('Sample'):
                 python_code = content
     except FileNotFoundError:
         print(f"Error: The file '{index}' was not found.")
+
+    # Skip the task if the index matches the skip_task value
+    if int(index) == skip_task:
+        description = 'Empty'
+        python_code = ''
 
     dataset.append({'Index': index, 'Description': description, 'PythonCode': python_code})
     DESCRIPTIONS.append(description)
@@ -87,6 +93,7 @@ def vector_search(query, top_n=3):
     _, indices = faiss_index.search(query_embedding, top_n)
     return [DESCRIPTIONS[i] for i in indices[0]]
 
+
 def extract_indices(text):
     """
     Extracts index numbers from a given text containing '--Index <number> DESCRIPTION--' patterns.
@@ -102,6 +109,7 @@ def extract_indices(text):
         return []
     return list(map(int, indices))  # Convert to integers
 
+
 def rerank_results(query, results):
     prompt = (f"Query: {query}\n\nRank the most relevant descriptions for this query. "
               f"Please provide only description index order from most relevant to least relevant as output without "
@@ -112,13 +120,14 @@ def rerank_results(query, results):
     response = ollama.chat(model=LANGUAGE_MODEL, messages=[{"role": "user", "content": prompt}])
     index = extract_indices(response["message"]["content"])
 
-    if len(index)==0:
+    if len(index) == 0:
         return None
     # Check if all input result indices are present in the extracted indices
     if not all(result in index for result in results):
         return None
 
     return index
+
 
 def retrieve(query, top_n=3):
     query_embedding = ollama.embed(model=EMBEDDING_MODEL, input=query)['embeddings'][0]
@@ -143,7 +152,7 @@ def hybrid_retrieve(query, top_n=3):
     similarities = []
     for i, (chunk, embedding) in enumerate(VECTOR_DB):
         similarity = cosine_similarity(query_embedding, embedding)
-        similarities.append((i,chunk, similarity))
+        similarities.append((i, chunk, similarity))
 
     # Combine BM25 and embedding scores
     combined_scores = [(i, bm25_scores[i] + similarities[i][2]) for i in range(len(bm25_scores))]
@@ -159,10 +168,11 @@ def hybrid_retrieve(query, top_n=3):
         return [(index, chunk, score) for index, chunk, score in similarities if index in best_match]
 
 
-def get_retrieved_details1(query,is_direct=True):
+def get_retrieved_details1(query, is_direct=True):
     if is_direct:
         retrieved_knowledge = retrieve(query)
     else:
         retrieved_knowledge = hybrid_retrieve(query)
-    details = [{'Description': chunk, 'PythonCode': dataset[index]['PythonCode']} for index, chunk, _ in retrieved_knowledge]
+    details = [{'Description': chunk, 'PythonCode': dataset[index]['PythonCode']} for index, chunk, _ in
+               retrieved_knowledge]
     return details
