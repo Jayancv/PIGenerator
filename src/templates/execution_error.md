@@ -6,3 +6,5 @@ Please provide full code with correction of previous code.
 NOTE : Final output should contain all the code with correction of previous code (Full code). 
 Please make sure your Python code is compatible with DWSIM. Do not use any placeholder or dummy values inside the 
 python code. Do not add reactions to python code. 
+if error is 'System.IO.FileNotFoundException: Unable to find assembly ...\DWSIM\CapeOpen.dll' then use 
+dwsimpath = "C:\\Users\\jcvid\\AppData\\Local\\DWSIM\\"

@@ -12,7 +12,8 @@ As you have seen, the output of your designed topology should consist of two tas
 
 Please make sure your Python code is compatible with DWSIM. Do not use any placeholder or dummy values in the Python 
 code. Do not add reactions to python code. 
-Please give the runnable code without any placeholders based one some configs in above code. 
+Please give the runnable code without any placeholders. 
+
 Consider following context to build the solution
 
 [CONTEXT]

@@ -1,0 +1,8 @@
+{
+  "description": "Extractive Distillation of Methanol and Acetone\n\nBackground & Description:\n  Acetone is used as a direct solvent and as a pioneer to the production of Methyl\n Methacrylate (MMA), Methacrylic Acid, Bisphenol-A, aldol chemicals to name among many. The\nuse of MMA in LCD, Polycarbonate dental fillings from Bisphenol play an indirect role of\ndemand for acetone in consumer electronics and industrial chemicals. Acetone and methanol\nhave very similar normal boiling points (329.2 and 337.5K) and form a homogeneous minimumboiling\nazeotrope at 1atm with a composition77.6mol% acetone at 328K.\n540 kmol/hr of an equal-molar Acetone -Methanol mixture is fed to 24th stage of a 36th staged\nextractive distillation column. The entrainer from the recovery column along with the makeup\nstream is fed to the 4th stage giving an overhead pure acetone. The DMSO, heavy key(methanol)\nalong with traces of acetone is fed to 8th stage of a 16th staged entrainer recovery column. High\npurity methanol is obtained at the overhead with pure DMSO at the bottom which is recycled\nback to the extraction column. ",
+  "keywords": "Extractive Distillation of Methanol and Acetone",
+  "model" : "gpt-3.5-turbo",
+  "version" : "gpt-3.5-turbo",
+  "api_key": "key",
+  "retry_count" : 3
+}

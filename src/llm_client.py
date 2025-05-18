@@ -142,7 +142,8 @@ class LLMClient:
             str: The response from the LLM.
         """
         # Truncate messages if they exceed the maximum context length
-        MAX_TOKENS = 16385
+        # MAX_TOKENS = 16385
+        MAX_TOKENS = self.get_model_max_tokens()
         messages = self.truncate_messages(self.model, messages, MAX_TOKENS)
         # print("MSG len ", len(messages))
         if any(model in self.model for model in OPENSOURCE_MODELS):
@@ -233,3 +234,19 @@ class LLMClient:
         response = self.call_llm(messages)
         print("Summarized text: Original text size: ", len(text), "Summarized text size ", len(response))
         return response
+
+    def get_model_max_tokens(self):
+        """
+        Get the maximum number of tokens for the model.
+
+        Returns:
+            int: The maximum number of tokens.
+        """
+        if "gpt" in self.model:
+            return 4096
+        if "deepseek" in self.model:
+            return 64000
+        elif any(model in self.model for model in OPENSOURCE_MODELS):
+            return 64000
+        else:
+            return 4096

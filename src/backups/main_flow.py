@@ -1,5 +1,5 @@
 from datetime import datetime
-from rag import get_retrieved_details
+from src.backups.rag_BACK import get_retrieved_details
 
 from openai import OpenAI
 import openai
@@ -275,7 +275,7 @@ def get_model_dir(model_name):
 
 
 def execution_error_retry_loop(model_name, messages, iterate, task_id, model_dir, execution_error_info):
-    fopen_exe_error = open('templates/execution_error.md', 'r')
+    fopen_exe_error = open('../templates/execution_error.md', 'r')
     prompt_exe_error = fopen_exe_error.read()
     fopen_exe_error.close()
 
@@ -317,7 +317,7 @@ def execution_error_retry_loop(model_name, messages, iterate, task_id, model_dir
 
 
 def component_error_retry_loop(model_name, messages, iterate, task_id, model_dir, input, code):
-    fopen_exe_error = open('templates/component_check.md', 'r')
+    fopen_exe_error = open('../templates/component_check.md', 'r')
     prompt_exe_error = fopen_exe_error.read()
     fopen_exe_error.close()
 
@@ -367,7 +367,7 @@ def component_error_retry_loop(model_name, messages, iterate, task_id, model_dir
 
 
 def pdf_generation(model_name, task_id, messages, code, retry_count):
-    fopen_pdf_save = open('templates/prompt_template_save.md', 'r')
+    fopen_pdf_save = open('../templates/prompt_template_save.md', 'r')
     prompt_pdf_save = fopen_pdf_save.read()
     fopen_pdf_save.close()
     prompt = prompt_pdf_save.replace('[CODE]', code)
@@ -434,7 +434,7 @@ def work(input, background, model_name, client, retry_count):
 
     output = ""
 
-    fopen = open('templates/prompt_template.md', 'r')
+    fopen = open('../templates/prompt_template.md', 'r')
     prompt = fopen.read()
     prompt = prompt.replace('[KEYWORDS]', background)
     prompt = prompt.replace('[INPUT]', input)
@@ -574,8 +574,9 @@ def work(input, background, model_name, client, retry_count):
     return 0
 
 
+# Not in use
 def main():
-    with open('problem5.json') as f:
+    with open('../problems/problem5.json') as f:
         data = json.load(f)
     df = pd.DataFrame(data, index=[0])
 
@@ -597,6 +598,6 @@ def main():
         print("no model found.")
     remaining_money = work(input_prompt, keywords, model_name, client, retry)
 
-
+# Not in use
 if __name__ == "__main__":
     main()

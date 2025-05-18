@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 
 # Load dataset
 dataset = []
-tree = ET.parse('rag_system/resources/dataset.xml')
+tree = ET.parse('../rag_system/resources/dataset.xml')
 root = tree.getroot()
 
 for sample in root.findall('Sample'):

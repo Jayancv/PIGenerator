@@ -20,7 +20,7 @@ class Config:
         parser.add_argument('--temperature', type=float, default=0.5)
         parser.add_argument('--retry', type=int, default=3)
         parser.add_argument("--use_rag",  type=bool, default=True)
-        parser.add_argument("--task_id", type=int, default=1)
+        parser.add_argument("--task_id", type=int, default=0)
 
         self.args = parser.parse_args()
 

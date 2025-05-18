@@ -16,7 +16,7 @@ DESCRIPTIONS = []
 dataset = []
 tree = ET.parse('rag_system/resources/dataset.xml')
 root = tree.getroot()
-skip_task = 5  # for evaluation example set need to exclude from the RAG system
+skip_task = 13 # for evaluation example set need to exclude from the RAG system
 
 for sample in root.findall('Sample'):
     index = sample.find('Index').text
@@ -39,6 +39,7 @@ for sample in root.findall('Sample'):
     if int(index) == skip_task:
         description = 'Empty'
         python_code = ''
+        print(f"Skipping task with index {index} for evaluation example set.")
 
     dataset.append({'Index': index, 'Description': description, 'PythonCode': python_code})
     DESCRIPTIONS.append(description)

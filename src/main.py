@@ -38,7 +38,7 @@ def write_to_file(file_path, content, mode='w'):
         file.write(content)
 
 
-def work_flow(user_input, llm_client):
+def work_flow(user_input, llm_client, problem_no):
     config = llm_client.config
     retry_count = config.args.retry
     use_rag = config.args.use_rag
@@ -51,7 +51,9 @@ def work_flow(user_input, llm_client):
         if retrieved_details:
             context = '\n'.join(
                 f"Context {i + 1} \n {item['Description']} \n Sample python code \n {item['PythonCode']}" for i, item in
-                enumerate(retrieved_details))
+                enumerate(retrieved_details)
+                if item['PythonCode']
+            )
             print(context)
             if len(context) > MAX_TOKENS:
                 total_length = sum(len(item['PythonCode']) for item in retrieved_details)
@@ -74,8 +76,7 @@ def work_flow(user_input, llm_client):
         context = "No RAG retrieval used."
     print("Context   = ", context)
 
-
-    task_id = datetime.now().strftime('%Y%m%d%H%M%S%f')
+    task_id = str(problem_no) + "_" + datetime.now().strftime('%Y%m%d%H%M%S%f')
     with open('templates/prompt_template.md', 'r', encoding='utf-8') as f:
         prompt_template = f.read()
     prompt = (prompt_template.replace('[CONTEXT]', context).replace('[INPUT]', user_input))
@@ -184,22 +185,21 @@ def work_flow(user_input, llm_client):
 
 
 def main():
-    with open('problem5.json', 'r', encoding='utf-8') as f:
+
+    config = Config()
+    llm_client = LLMClient(config)
+
+    problem_no = 13
+    if config.args.task_id > 0:
+        problem_no = config.args.task_id
+    with open('problems/problem' + str(problem_no) + '.json', 'r', encoding='utf-8') as f:
         data = json.load(f)
 
     df = pd.DataFrame(data, index=[0])
 
-    # model_name = df.loc[0, 'model']
     input_prompt = df.loc[0, 'description']
-    # keywords = df.loc[0, 'keywords']
-    # api_key = df.loc[0, 'api_key']
-    # retry_count = df.loc[0, 'retry_count']
-    # use_rag = df.loc[0, 'use_rag']
 
-    config = Config()
-
-    llm_client = LLMClient(config)
-    work_flow(input_prompt, llm_client)
+    work_flow(input_prompt, llm_client, problem_no)
 
 
 if __name__ == "__main__":

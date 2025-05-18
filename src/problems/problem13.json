@@ -1,0 +1,8 @@
+{
+  "description": "A steam turbine is a device that extracts thermal energy from pressurized\nsteam and uses it to do mechanical work on a rotating output shaft. Its\nmodern manifestation was invented by Sir Charles Parsons in 1884.\nBecause the turbine generates rotary motion, it is particularly suited to be\nused to drive an electrical generator.\nThe steam turbine is a form of heat engine that derives much of its\nimprovement in thermodynamic efficiency from the use of multiple stages in\nthe expansion of the steam, which results in a closer approach to the ideal\nreversible expansion process.\nDescription of the flowsheet:\nWater at 65 degree Fahrenheit, 14.7 psi and a mass flow rate of 2000 pound\nmass /hour is sent into a pump to increase its pressure to 250 psi. This water at\nhigh pressure is heated to its boiling point using a boiler (401 degree Fahrenheit).\nThis vapor is now super-heated in a heater to 550 degree Fahrenheit to ensure\nthat condensation of the steam doesn’t occur in the adiabatic expander. This\nsuperheated vapor is sent to a turbine in which steam expands adiabatically and\nrotates the shaft which is connected to an electromagnet to produce electricity.\nThe spent steam is sometimes recycled to be reused. ",
+  "keywords": "OPEN CYCLE STEAM TURBINE",
+  "model" : "gpt-3.5-turbo",
+  "version" : "gpt-3.5-turbo",
+  "api_key": "key",
+  "retry_count" : 3
+}
